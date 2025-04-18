@@ -10,6 +10,7 @@ public class TestGo : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.mass = 10;
     }
 
     // 물리 연산은 FixedUpdate에서

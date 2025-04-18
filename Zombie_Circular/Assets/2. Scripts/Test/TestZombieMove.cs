@@ -1,98 +1,131 @@
-Ôªøusing System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestZombieMove : MonoBehaviour
 {
-    enum ZombieState
-    { 
-        Run,
-        Stop,
-        IsPushed,
-        Jump
-    }
+    [SerializeField] private float jumpForce = 1f;  // ¡°«¡ Ω√ »˚
+    [SerializeField] private float moveSpeed = 1f;  // ¥ﬁ∏± Ω√ »˚
+    [SerializeField] private float rayDistance = 0.5f;
+    [SerializeField] private float pusingthresdhold = 0f;
 
-    [SerializeField] private float jumpForce = 1f;  // Ï†êÌîÑ Ïãú Ìûò
-    [SerializeField] private float moveSpeed = 1f;  // Îã¨Î¶¥ Ïãú Ìûò
-    public float rayDistance = 1f;
     public LayerMask groundLayer;
     public LayerMask zombieLayer;
-    private Rigidbody2D rb;
-    private ZombieState state;
-    private RaycastHit2D downHit;
     
+    private Rigidbody2D rb;
+    private RaycastHit2D downHit;
+    private Bounds bounds;
+    private Collider2D myCollider2D;
+
+    private Transform frontTransform = null;
+    private Vector3 lastFrontTransformPos;
+    private bool isInGroup = false;
+    private bool canJump = false;
 
     private void Awake()
     {
         Physics2D.queriesStartInColliders = false;
         rb = GetComponent<Rigidbody2D>();
-        state = ZombieState.Run;
+        myCollider2D = GetComponent<Collider2D>();
+        bounds = myCollider2D.bounds;
+        rayDistance += (bounds.max.x - bounds.min.x) / 2;
     }
 
     private void FixedUpdate()
     {
-        var col = GetComponent<Collider2D>();
-        Vector2 origin = (Vector2)col.bounds.center
-                       + Vector2.left * (col.bounds.extents.x);
+        if (!isInGroup)
+            rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
 
-        RaycastHit2D frontHit = Physics2D.Raycast(
-            origin, Vector2.left, rayDistance,
-            groundLayer | zombieLayer);
-        Debug.DrawLine(origin, origin + Vector2.left * rayDistance, Color.green, 0.1f);
-
-        if (frontHit.collider != null)
+        if (isInGroup && frontTransform != null)
         {
-            // ÏïûÏóê Ïû•Ïï†Î¨ºÏù¥ ÏûàÏúºÎ©¥ Ï†ïÏßÄ
-            Debug.Log(frontHit.collider.tag);
-            state = ZombieState.Stop;
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            Vector3 delta = frontTransform.position - lastFrontTransformPos;
+            transform.position += delta;
+            lastFrontTransformPos = frontTransform.position;
         }
-        else
+
+        bounds = myCollider2D.bounds;
+        Transform trans = checkFront();
+        if (trans!=null)
         {
-            if (state == ZombieState.IsPushed)
-                return;
-            // ÏïûÏóê ÏïÑÎ¨¥Í≤ÉÎèÑ ÏóÜÏúºÎ©¥ Ï†ÑÏßÑ
-            Debug.Log("ÎÑå Ïù¥Ï†ú ÏûêÏú†Îã§");
-            state = ZombieState.Run;
-            rb.velocity = new Vector2(-moveSpeed, rb.velocity.y); // ÏôºÏ™ΩÏúºÎ°ú Ïù¥Îèô
+            checkBack(trans);
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void checkBack(Transform trans)
     {
-        if (collision.gameObject.CompareTag("Tower"))
+        Vector2 rayOrigin = new Vector2(bounds.max.x, bounds.max.y);
+        RaycastHit2D hitBack = Physics2D.Raycast(rayOrigin, Vector2.right, rayDistance);
+        Debug.DrawRay(rayOrigin, Vector2.right * hitBack.distance, Color.red);
+
+        if (canJump && hitBack.collider == null)
         {
-            downHit = Physics2D.Raycast(transform.position, Vector2.down, rayDistance, groundLayer | zombieLayer);
-            Debug.DrawLine(transform.position, transform.position + Vector3.down * rayDistance, Color.red, 60f);
-            if (downHit.collider != null && downHit.collider.CompareTag("Ground"))
-            {
-                if(state != ZombieState.Stop)
-                    state = ZombieState.Stop;
-            }
-            else if (downHit.collider != null && downHit.collider.CompareTag("Monster"))
-            {
-                Debug.Log($"{this.name} Î∞ëÏóê Î™¨Ïä§ÌÑ∞~!");
-                if (state!= ZombieState.Run)
-                {
-                    state = ZombieState.Run;
-                }
-            }
+            Detach(trans);
+            jump();
+            canJump = false;
         }
-        else if (collision.gameObject.CompareTag("Monster"))
+        else if (hitBack.collider != null)
         {
-            // ÏôºÏ™Ω(ÏïûÏ™Ω)Ïùº Ïãú Ï†êÌîÑ
+            Attach(trans);
+            canJump = false;
+        }
+    }
+
+    private Transform checkFront()
+    {
+        Vector2 rayOrigin = new Vector2(transform.position.x, bounds.max.y);
+
+        RaycastHit2D hitFront = Physics2D.Raycast(rayOrigin, Vector2.left, rayDistance);
+        Debug.DrawRay(rayOrigin, Vector2.left * hitFront.distance, Color.red);
+
+        if (hitFront.collider == null)
+            return null;
+
+        if (hitFront.collider.gameObject.CompareTag("Monster"))
+        {
+            return hitFront.collider.transform;
+        }
+
+        return null;
+    }
+
+    // µ⁄∞° ∫Òæ˙∞≈≥™, æ’¿Ã ∫Òæ˙¿ª ∂ß
+    private void Detach(Transform otherTransform)
+    {
+        if (otherTransform == frontTransform)
+        {
+            frontTransform = null;
+            isInGroup = false;
+        }
+    }
+
+    // æ’∞˙ µ⁄ ∏µŒ ≤À ¬˜¿÷¿ª ∂ß, attach
+    private void Attach(Transform otherTransform)
+    {
+        frontTransform = otherTransform;
+        lastFrontTransformPos = frontTransform.position;
+        isInGroup = true;
+    }
+
+    // æ’∞˙ √≥¿Ω √Êµπ≥µ¿ª ∂ß, ¡°«¡!
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            // øﬁ¬ (æ’¬ )¿œ Ω√ ¡°«¡
             ContactPoint2D contact = collision.contacts[0];
             Vector2 normal = contact.normal;
 
             if (Vector2.Dot(normal, Vector2.right) > 0.9f)
             {
-                if (state == ZombieState.Jump)
-                    return;
-                state = ZombieState.Jump;
-                Debug.Log($"{this.name} jump!");
-                Vector2 impulse = Vector2.up * jumpForce;
-                rb.AddForce(impulse, ForceMode2D.Impulse);
+                canJump = true;
             }
         }
+    }
+
+    private void jump()
+    {
+        Debug.Log($"{this.name} jump!");
+        Detach(frontTransform);
+        Vector2 impulse = Vector2.up * jumpForce;
+        rb.AddForce(impulse, ForceMode2D.Impulse);
     }
 }

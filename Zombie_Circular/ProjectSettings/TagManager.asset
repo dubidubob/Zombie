@@ -8,7 +8,6 @@ TagManager:
   - Monster
   - Tower
   - Ground
-  - Etc
   layers:
   - Default
   - TransparentFX

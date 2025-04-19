@@ -1,34 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAttackState : EnemyState
 {
-    public EnemyAttackState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
-    {
-    }
-
-    public override void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType)
-    {
-        base.AnimationTriggerEvent(triggerType);
-    }
+    public EnemyAttackState(Enemy enemy, EnemyStateMachine fsm)
+        : base(enemy, fsm) { }
 
     public override void EnterState()
     {
         base.EnterState();
     }
 
-    public override void ExitState()
+    public override void CheckToChangeState() 
     {
-        base.ExitState();
-    }
-
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-        if(!enemy.IsZombieFront && !enemy.IsTowerFront)
-            enemyStateMachine.ChangeState(enemy.RunState);
-        else if(enemy.IsZombieUp)
+        base.CheckToChangeState();
+        if (enemy.IsZombieUp)
+        {
             enemyStateMachine.ChangeState(enemy.BackState);
+        }
+        else if (!enemy.IsZombieFront && !enemy.IsTowerFront)
+        {
+            enemyStateMachine.ChangeState(enemy.RunState);
+        }
     }
 }

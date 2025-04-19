@@ -5,9 +5,7 @@ using UnityEngine;
 public class EnemyJumpState : EnemyState
 {
     private float m_jumpForce =1f;
-    public EnemyJumpState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
-    {
-    }
+    public EnemyJumpState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine) { }
 
     public override void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType)
     {
@@ -17,10 +15,8 @@ public class EnemyJumpState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
-
-        m_jumpForce = enemy.JumpForce;
-        Vector2 impulse = Vector2.up * m_jumpForce;
-        enemy.RB.AddForce(impulse, ForceMode2D.Impulse);
+        Jump();
+        
     }
 
     public override void ExitState()
@@ -28,9 +24,10 @@ public class EnemyJumpState : EnemyState
         base.ExitState();
     }
 
-    public override void FrameUpdate()
+    public override void CheckToChangeState()
     {
-        base.FrameUpdate();
+        base.CheckToChangeState();
+
         if (enemy.IsZombieFront)
         {
             if (enemy.IsZombieBack)
@@ -42,5 +39,13 @@ public class EnemyJumpState : EnemyState
         {
             enemyStateMachine.ChangeState(enemy.RunState);
         }
+    }
+
+    private void Jump()
+    {
+        m_jumpForce = enemy.JumpForce;
+        //enemy.transform.Translate(Vector3.up * (m_jumpForce / enemy.RB.mass));
+        Vector2 impulse = Vector2.up * m_jumpForce;
+        enemy.RB.AddForce(impulse, ForceMode2D.Impulse);
     }
 }

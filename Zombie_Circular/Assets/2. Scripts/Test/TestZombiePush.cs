@@ -10,10 +10,10 @@ public class TestZombiePush : MonoBehaviour
         Jump
     }
 
-    [SerializeField] private float jumpForce = 1f;  // 점프 시 힘
+    //[SerializeField] private float jumpForce = 1f;  // 점프 시 힘
     [SerializeField] private float moveSpeed = 1f;  // 달릴 시 힘
     [SerializeField] private float rayDistance = 0.5f;
-    [SerializeField] private float pusingthresdhold = 0f;
+    // [SerializeField] private float pusingthresdhold = 0f;
     public LayerMask groundLayer;
     public LayerMask zombieLayer;
     private Rigidbody2D rb;

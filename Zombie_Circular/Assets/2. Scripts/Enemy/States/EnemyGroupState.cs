@@ -29,9 +29,9 @@ public class EnemyGroupState : EnemyState
         StopFollowing();
     }
 
-    public override void FrameUpdate()
+    public override void CheckToChangeState()
     {
-        base.FrameUpdate();
+        base.CheckToChangeState();
         if (!enemy.IsZombieFront)
             enemyStateMachine.ChangeState(enemy.RunState);
     }

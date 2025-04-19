@@ -18,14 +18,10 @@ public class EnemyRunState : EnemyState
         m_moveSpeed = enemy.RunVelocity;
     }
 
-    public override void FrameUpdate()
-    {
-        base.FrameUpdate();
-        if (enemy.IsZombieUp)
-        {
-            enemyStateMachine.ChangeState(enemy.BackState);
-        }
-        else if (enemy.IsTowerFront)
+    public override void CheckToChangeState()
+    { 
+        base.CheckToChangeState();
+        if (enemy.IsTowerFront)
         {
             enemyStateMachine.ChangeState(enemy.AttackState);
         }

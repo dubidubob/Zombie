@@ -6,11 +6,14 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMovable, ITriggerCheckabl
 {
     [field: SerializeField] public float MaxHealth { get; set; } = 100f;
     public float CurrentHealth { get; set; }
+    #region Physics
     public Rigidbody2D RB { get; set; }
     public Transform TargetTransform { get; set; }
     [field: SerializeField] public float RunVelocity { get; set; } = 1f;
-    [field: SerializeField] public float BackOffVelocity { get; set; } = 1f;
     [field: SerializeField] public float JumpForce { get; set; } = 1f;
+    [field: SerializeField] public float BackOffVelocity { get; set; } = 1f;
+    [field: SerializeField] public float BackOffDuration { get; set; } = 0.5f;
+    #endregion
     #region State Machine Variables
     public EnemyStateMachine StateMachine { get; set; }
     public EnemyGroupState GroupState { get; set; }
@@ -77,26 +80,30 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMovable, ITriggerCheckabl
     #endregion
 
     #region Distance Checks
-
     public void SetTowerFront(bool isTowerFront)
     {
-        IsTowerFront = isTowerFront;   
+        IsTowerFront = isTowerFront;
+        StateMachine.CurrentEnemyState.CheckToChangeState();
     }
 
     public void SetZombieFront(bool isZombieFront)
     {
         IsZombieFront = isZombieFront;
+        StateMachine.CurrentEnemyState.CheckToChangeState();
     }
 
     public void SetZombieBack(bool isZombieBack)
     {
         IsZombieBack = isZombieBack;
+        StateMachine.CurrentEnemyState.CheckToChangeState();
     }
 
     public void SetZombieUp(bool isZombieUp)
     {
         IsZombieUp = isZombieUp;
+        StateMachine.CurrentEnemyState.CheckToChangeState();
     }
+
     #endregion
     #region Animation Triggers
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)

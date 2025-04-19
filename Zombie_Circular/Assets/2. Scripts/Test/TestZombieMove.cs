@@ -6,7 +6,7 @@ public class TestZombieMove : MonoBehaviour
     [SerializeField] private float jumpForce = 1f;  // Á¡ÇÁ ½Ã Èû
     [SerializeField] private float moveSpeed = 1f;  // ´Þ¸± ½Ã Èû
     [SerializeField] private float rayDistance = 0.5f;
-    [SerializeField] private float pusingthresdhold = 0f;
+    //[SerializeField] private float pusingthresdhold = 0f;
 
     public LayerMask groundLayer;
     public LayerMask zombieLayer;

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Enemy))]
@@ -43,17 +40,14 @@ public class ZombieCollisionChecker : MonoBehaviour
         }
         else
         {
-            if (hitFront.collider.gameObject.layer == m_rayLayerMask)
+            int layer = hitFront.collider.gameObject.layer;
+            if (((1 << layer) & m_rayLayerMask) != 0) 
             {
-                int layer = hitFront.collider.gameObject.layer;
-                if (((1 << layer) & m_rayLayerMask) != 0) 
+                if (!m_Enemy.IsZombieFront)
                 {
-                    if (!m_Enemy.IsZombieFront)
-                    {
-                        m_Enemy.TargetTransform = hitFront.transform;
-                        Debug.Log($"{m_Enemy.TargetTransform.name}이 앞에 있어요~");
-                        m_Enemy.SetZombieFront(true);
-                    }
+                    m_Enemy.TargetTransform = hitFront.transform;
+                    Debug.Log($"{m_Enemy.TargetTransform.name}이 앞에 있어요~");
+                    m_Enemy.SetZombieFront(true);
                 }
             }
         }

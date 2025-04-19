@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyJumpState : EnemyState
+public class EnemyBackState : EnemyState
 {
-    private float m_jumpForce =1f;
-    public EnemyJumpState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
+    private float m_moveSpeed = 1f;
+    public EnemyBackState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
 
@@ -17,11 +17,7 @@ public class EnemyJumpState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
-
-        m_jumpForce = enemy.JumpForce;
-        Debug.Log($"{enemy.name} jump!");
-        Vector2 impulse = Vector2.up * m_jumpForce;
-        enemy.RB.AddForce(impulse, ForceMode2D.Impulse);
+        m_moveSpeed = enemy.BackOffVelocity;
     }
 
     public override void ExitState()
@@ -32,16 +28,23 @@ public class EnemyJumpState : EnemyState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if (enemy.IsZombieFront)
+        if (enemy.IsZombieUp) { }
+        else if (enemy.IsZombieFront)
         {
             if (enemy.IsZombieBack)
                 enemyStateMachine.ChangeState(enemy.GroupState);
             else
                 enemyStateMachine.ChangeState(enemy.JumpState);
         }
-        else
+        else if(!enemy.IsZombieFront)
         {
             enemyStateMachine.ChangeState(enemy.RunState);
         }
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+        enemy.RB.velocity = new Vector2(m_moveSpeed, enemy.RB.velocity.y);
     }
 }

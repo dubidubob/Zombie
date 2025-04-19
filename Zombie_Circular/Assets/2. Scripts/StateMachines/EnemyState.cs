@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyState
@@ -13,7 +11,10 @@ public class EnemyState
         this.enemyStateMachine = enemyStateMachine;
     }
 
-    public virtual void EnterState() { }
+    public virtual void EnterState() 
+    {
+        Debug.Log($"{enemy.name} : {GetType().Name}");
+    }
     public virtual void ExitState() { }
     public virtual void FrameUpdate() { }
     public virtual void PhysicsUpdate() { }

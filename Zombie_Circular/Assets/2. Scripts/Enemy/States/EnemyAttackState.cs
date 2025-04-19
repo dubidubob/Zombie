@@ -26,10 +26,9 @@ public class EnemyAttackState : EnemyState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
+        if(!enemy.IsZombieFront && !enemy.IsTowerFront)
+            enemyStateMachine.ChangeState(enemy.RunState);
+        else if(enemy.IsZombieUp)
+            enemyStateMachine.ChangeState(enemy.BackState);
     }
 }

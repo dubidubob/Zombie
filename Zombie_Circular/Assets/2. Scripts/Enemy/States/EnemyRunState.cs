@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyRunState : EnemyState
 {
-    private float moveSpeed = 1f;
+    private float m_moveSpeed = 1f;
     public EnemyRunState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine)
     {
     }
@@ -15,19 +15,26 @@ public class EnemyRunState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
-        moveSpeed = enemy.RunVelocity;
+        m_moveSpeed = enemy.RunVelocity;
     }
 
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        if (enemy.IsTowerFront)
+        if (enemy.IsZombieUp)
+        {
+            enemyStateMachine.ChangeState(enemy.BackState);
+        }
+        else if (enemy.IsTowerFront)
         {
             enemyStateMachine.ChangeState(enemy.AttackState);
         }
         else if (enemy.IsZombieFront)
-        { 
-            enemyStateMachine.ChangeState(enemy.IdleState);
+        {
+            if (enemy.IsZombieBack)
+                enemyStateMachine.ChangeState(enemy.GroupState);
+            else
+                enemyStateMachine.ChangeState(enemy.JumpState);
         }
     }
 
@@ -35,6 +42,6 @@ public class EnemyRunState : EnemyState
     {
         base.PhysicsUpdate();
         // 왼쪽으로 이동
-        enemy.RB.velocity = new Vector2(-moveSpeed, enemy.RB.velocity.y);
+        enemy.RB.velocity = new Vector2(-m_moveSpeed, enemy.RB.velocity.y);
     }
 }

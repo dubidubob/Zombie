@@ -7,27 +7,33 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMovable, ITriggerCheckabl
     [field: SerializeField] public float MaxHealth { get; set; } = 100f;
     public float CurrentHealth { get; set; }
     public Rigidbody2D RB { get; set; }
+    public Transform TargetTransform { get; set; }
     [field: SerializeField] public float RunVelocity { get; set; } = 1f;
+    [field: SerializeField] public float BackOffVelocity { get; set; } = 1f;
+    [field: SerializeField] public float JumpForce { get; set; } = 1f;
     #region State Machine Variables
     public EnemyStateMachine StateMachine { get; set; }
-    public EnemyIdleState IdleState { get; set; }
+    public EnemyGroupState GroupState { get; set; }
     public EnemyRunState RunState { get; set; }
     public EnemyAttackState AttackState { get; set; }
     public EnemyJumpState JumpState { get; set; }
+    public EnemyBackState BackState { get; set; }
     #endregion
     #region Trigger Check Variables
     public bool IsTowerFront { get; set; }
     public bool IsZombieFront { get; set; }
     public bool IsZombieBack { get; set; }
+    public bool IsZombieUp { get; set; }
     #endregion
 
     private void Awake()
     {
         StateMachine = new EnemyStateMachine();
-        IdleState = new EnemyIdleState(this, StateMachine);
+        GroupState = new EnemyGroupState(this, StateMachine);
         AttackState = new EnemyAttackState(this, StateMachine);
         RunState = new EnemyRunState(this, StateMachine);
         JumpState = new EnemyJumpState(this, StateMachine);
+        BackState = new EnemyBackState(this, StateMachine);
     }
     private void Start()
     {

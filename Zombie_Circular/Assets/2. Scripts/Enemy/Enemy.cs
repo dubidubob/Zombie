@@ -92,6 +92,11 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMovable, ITriggerCheckabl
     {
         IsZombieBack = isZombieBack;
     }
+
+    public void SetZombieUp(bool isZombieUp)
+    {
+        IsZombieUp = isZombieUp;
+    }
     #endregion
     #region Animation Triggers
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)

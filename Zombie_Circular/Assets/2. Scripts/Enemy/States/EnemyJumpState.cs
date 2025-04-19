@@ -19,7 +19,6 @@ public class EnemyJumpState : EnemyState
         base.EnterState();
 
         m_jumpForce = enemy.JumpForce;
-        Debug.Log($"{enemy.name} jump!");
         Vector2 impulse = Vector2.up * m_jumpForce;
         enemy.RB.AddForce(impulse, ForceMode2D.Impulse);
     }

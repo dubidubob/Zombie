@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -12,14 +11,18 @@ public class Zombie : Pawn, IEnemyMovable
         Attack,
         Jump
     }
+
     [Header("Physics")]
     [SerializeField] private float m_delay = 0.5f;
     [field: SerializeField] public float RunSpeed { get; set; } = 1f;
     [field: SerializeField] public float JumpForce { get; set; } = 1f;
+
     [Header("Detect")]
     [SerializeField] private LayerMask enemyLayerMask;
-    [Header("Debuggine")]
+    
+    [Header("Debugging")]
     [SerializeField] private TextMeshProUGUI text;
+
     private Vector2 m_size;
     private Collider2D m_myCollider;
     private Collider2D[] m_buffer = new Collider2D[8];
@@ -45,7 +48,19 @@ public class Zombie : Pawn, IEnemyMovable
     {
         text.text = m_zombieState.ToString();
     }
+
     private void FixedUpdate()
+    {
+        Detect();
+    }
+
+    protected override void OnDie()
+    {
+        gameObject.SetActive(false);
+    }
+
+    #region Detect
+    private void Detect()
     {
         ResetDetectionFlags();
         DetectSurroundings();
@@ -59,10 +74,9 @@ public class Zombie : Pawn, IEnemyMovable
             case State.Jump: stateJump(); break;
         }
     }
-
     private void ResetDetectionFlags()
     {
-        hasUp  = hasDown = hasLeft = hasRight = false;
+        hasUp = hasDown = hasLeft = hasRight = false;
     }
 
     private void DetectSurroundings()
@@ -92,7 +106,9 @@ public class Zombie : Pawn, IEnemyMovable
         // 이제 hasUp, hasDown, hasLeft, hasRight를 이용해 로직 처리
         Debug.Log($"{this.name} hasUp : {hasUp} left : {hasLeft}, right : {hasRight}");
     }
+    #endregion
 
+    #region States
     private void stateIdleRun() // !hasLeft
     {
         m_rigidBody.velocity = new Vector2(-RunSpeed, m_rigidBody.velocity.y);
@@ -155,13 +171,28 @@ public class Zombie : Pawn, IEnemyMovable
         if (hasUp)
             m_zombieState = State.Back;
     }
+    #endregion
 
-    #region Tower
+    #region Tower, Bullet
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Tower"))
-            if(m_zombieState!=State.Back)
+        {
+            if (m_zombieState != State.Back)
                 m_zombieState = State.Attack;
+        }
+        else if (collision.CompareTag("Damageble"))
+        {
+            float damage = collision.gameObject.GetComponent<Bullet>().BulletDamage;
+            Damage(damage);
+        }
+    }
+
+    protected override void OnDamage(float damageAmount)
+    {
+        base.OnDamage(damageAmount);
+
+        DamagePopupGenerator.Instance.CreatePopup(transform.position, damageAmount.ToString());
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

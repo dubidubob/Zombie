@@ -17,19 +17,30 @@ public class Pawn : MonoBehaviour, IDamageable
     }
 
     #region Health / Die
+
     public void Damage(float damageAmount)
+    {
+        OnDamage(damageAmount);
+    }
+
+    public void Die()
+    {
+        OnDie();
+    }
+
+    protected virtual void OnDamage(float damageAmount)
     {
         CurrentHealth -= damageAmount;
         if (CurrentHealth <= 0f)
-        {
-            Die();
-        }
+            OnDie();
     }
-    public void Die()
+
+    protected virtual void OnDie()
     {
-        //TODO : Object Pooling
+        // TODO: Object Pooling µî
         Destroy(gameObject);
     }
+
     #endregion
 
     #region Animation Triggers
@@ -38,6 +49,7 @@ public class Pawn : MonoBehaviour, IDamageable
         //TODO
     }
 
+    
     public enum PawnStateType
     {
         Run,

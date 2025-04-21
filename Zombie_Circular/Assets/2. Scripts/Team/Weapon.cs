@@ -95,7 +95,6 @@ public class Weapon : MonoBehaviour
         // 3. Z축 회전만 반영
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        Debug.Log($"{dir} 방향으로 에임 완료 (angle={angle})");
         return dir;
     }
 
@@ -116,7 +115,6 @@ public class Weapon : MonoBehaviour
             go.GetComponent<Bullet>().BulletDamage = bulletDamage; // 데미지 설정
             Vector2 impulse = ShootingDir * shootingForce;
             go.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
-            Debug.Log($"{impulse} 쏨!");
         }
     }
 }

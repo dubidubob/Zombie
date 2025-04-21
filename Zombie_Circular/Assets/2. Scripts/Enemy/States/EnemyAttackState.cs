@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyState
 {
-    public EnemyAttackState(Enemy enemy, EnemyStateMachine fsm)
-        : base(enemy, fsm) { }
+    public EnemyAttackState(Enemy enemy, EnemyStateMachine fsm) : base(enemy, fsm) { }
 
     public override void EnterState()
     {

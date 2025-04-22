@@ -13,14 +13,16 @@ public class Box : MonoBehaviour, IDamageable
         if (HpSlider == null)
         {
             HpSlider = GetComponentInChildren<Slider>();
-            HpSlider.value = 1;
         }
+        HpSlider.maxValue = MaxHealth;
+        HpSlider.value = HpSlider.maxValue;
+        CurrentHealth = MaxHealth;
+        
         if (CenterPos == null)
         {
             Transform child = transform.Find("CenterPoint");
             CenterPos = child.transform;
         }
-        CurrentHealth = MaxHealth;
     }
 
     #region HP/Damage
@@ -43,7 +45,7 @@ public class Box : MonoBehaviour, IDamageable
 
     private void UpdateHpPanel()
     {
-        HpSlider.value = Mathf.Clamp((float)CurrentHealth / MaxHealth, 0f, 1f);
+        HpSlider.value = Mathf.Clamp((float)CurrentHealth, 0f, MaxHealth);
     }
     #endregion
 
@@ -57,7 +59,8 @@ public class Box : MonoBehaviour, IDamageable
     {
         if (collision.gameObject.CompareTag("HurtHero"))
         {
-            var pawn = collision.gameObject.GetComponentInParent<Pawn>();
+            Debug.Log("µé¾î¿È?");
+            var pawn = collision.gameObject.GetComponentInParent<Zombie>();
             Damage(pawn.MyDamage);
         }
     }

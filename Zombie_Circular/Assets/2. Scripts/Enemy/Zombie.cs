@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ public class Zombie : Pawn, IEnemyMovable
     //[SerializeField] private float m_delay = 0.5f;
     [field: SerializeField] public float RunSpeed { get; set; } = 1f;
     [field: SerializeField] public float JumpForce { get; set; } = 1f;
+    [SerializeField] public float MyDamage { get; set; } = 10f;
 
     [Header("Detect")]
     [SerializeField] private LayerMask enemyLayerMask;
@@ -72,6 +74,12 @@ public class Zombie : Pawn, IEnemyMovable
     protected override void OnDie()
     {
         TransitionTo(State.Die);
+        StartCoroutine(DeactivateAfterDelay(0.5f));
+    }
+
+    private IEnumerator DeactivateAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         gameObject.SetActive(false);
     }
 
@@ -243,7 +251,7 @@ public class Zombie : Pawn, IEnemyMovable
 
     private void SetAnimationState(State state)
     {
-        Debug.Log($"{state} 상태");
+        //Debug.Log($"{state} 상태");
         m_animator.SetBool("IsAttacking", state == State.Attack);
         m_animator.SetBool("IsIdle", state == State.IdleRun || state == State.Back || state == State.Jump || state == State.Stop);
         m_animator.SetBool("IsDead", state == State.Die);

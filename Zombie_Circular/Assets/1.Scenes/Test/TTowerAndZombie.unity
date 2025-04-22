@@ -384,7 +384,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 700397433}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: SearchCenterPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,29 +458,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2094693183665648150, guid: e48e7c461a85c463cba5a999afb91a67, type: 3}
-      propertyPath: m_TagString
-      value: HurtHero
-      objectReference: {fileID: 0}
     - target: {fileID: 2295454180104007076, guid: e48e7c461a85c463cba5a999afb91a67, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 3879850738069150251, guid: e48e7c461a85c463cba5a999afb91a67, type: 3}
-      propertyPath: attackCollider
-      value: 
-      objectReference: {fileID: 1385438874}
-    - target: {fileID: 3879850738069150251, guid: e48e7c461a85c463cba5a999afb91a67, type: 3}
-      propertyPath: attackColliderHeadPivot
-      value: 
-      objectReference: {fileID: 1385438874}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2094693183665648150, guid: e48e7c461a85c463cba5a999afb91a67, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1385438874}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e48e7c461a85c463cba5a999afb91a67, type: 3}
 --- !u!1 &759303253 stripped
 GameObject:
@@ -564,46 +549,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1385438872 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2094693183665648150, guid: e48e7c461a85c463cba5a999afb91a67, type: 3}
-  m_PrefabInstance: {fileID: 759303252}
-  m_PrefabAsset: {fileID: 0}
---- !u!58 &1385438874
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385438872}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.0032285452, y: 0.22277063}
-  serializedVersion: 2
-  m_Radius: 0.2804579
 --- !u!1 &1653995044
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +558,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1653995045}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -706,7 +651,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4730033566222167661}
   - component: {fileID: 3207025140237796201}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: BoxCenterPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1112,7 +1057,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7033394483946134820}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: WheelParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1365,7 +1310,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Tower
       objectReference: {fileID: 0}
     - target: {fileID: 6872163726244765423, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
@@ -1466,7 +1411,7 @@ Transform:
   m_GameObject: {fileID: 5400252000390933249}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.349, z: 0}
+  m_LocalPosition: {x: 0, y: -0.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1614,7 +1559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 37589745278966829, guid: 7893928ca2646914284bdfa75d4553bc, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3850457554487496074, guid: 7893928ca2646914284bdfa75d4553bc, type: 3}
       propertyPath: m_Enabled
@@ -1854,7 +1799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Tower
       objectReference: {fileID: 0}
     - target: {fileID: 6872163726244765423, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
@@ -1966,7 +1911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Tower
       objectReference: {fileID: 0}
     - target: {fileID: 6872163726244765423, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
@@ -2054,7 +1999,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 37589745278966829, guid: 7893928ca2646914284bdfa75d4553bc, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3850457554487496074, guid: 7893928ca2646914284bdfa75d4553bc, type: 3}
       propertyPath: m_Sprite
@@ -2139,7 +2084,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1831189602616772126}
   - component: {fileID: 8906031750740184332}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2327,9 +2272,9 @@ GameObject:
   - component: {fileID: 5376444533344853780}
   - component: {fileID: 456412481659504874}
   - component: {fileID: 3169193168575848384}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Truck
-  m_TagString: Tower
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2535,7 +2480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Tower
       objectReference: {fileID: 0}
     - target: {fileID: 6872163726244765423, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
@@ -3029,7 +2974,7 @@ GameObject:
   - component: {fileID: 8617595185914761976}
   m_Layer: 9
   m_Name: BoxTrans
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3120,16 +3065,31 @@ GameObject:
   m_Component:
   - component: {fileID: 815116586079860169}
   - component: {fileID: 1790523861188558647}
+  - component: {fileID: 8461438852885901316}
   - component: {fileID: 3015827191674034973}
   - component: {fileID: 27006406745591228}
-  - component: {fileID: 8953647758427463177}
   m_Layer: 9
   m_Name: Hero
-  m_TagString: Player
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8461438852885901316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8461438852885901315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e3b3cc96bfb1d4195306ee46f7c39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MaxHealth>k__BackingField: 100
+  HpSlider: {fileID: 312882015960529160}
+  CenterPos: {fileID: 4730033566222167661}
 --- !u!4 &8617595185914761976
 Transform:
   m_ObjectHideFlags: 0
@@ -3331,21 +3291,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8953647758427463177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8461438852885901315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5afd11efcd9e1f843abcbc9d13feb322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 100
-  HpSlider: {fileID: 312882015960529160}
-  CenterPos: {fileID: 4730033566222167661}
 --- !u!4 &8969240201283377900
 Transform:
   m_ObjectHideFlags: 0

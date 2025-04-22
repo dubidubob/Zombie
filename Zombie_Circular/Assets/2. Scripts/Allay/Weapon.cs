@@ -21,7 +21,6 @@ public class Weapon : MonoBehaviour
     
     private void Start()
     {
-        zombieLayer = LayerMask.GetMask("Enemy");
         StartCoroutine(Shooting());
     }
 

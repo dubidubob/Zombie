@@ -59,7 +59,6 @@ public class Box : MonoBehaviour, IDamageable
     {
         if (collision.gameObject.CompareTag("HurtHero"))
         {
-            Debug.Log("µé¾î¿È?");
             var pawn = collision.gameObject.GetComponentInParent<Zombie>();
             Damage(pawn.MyDamage);
         }

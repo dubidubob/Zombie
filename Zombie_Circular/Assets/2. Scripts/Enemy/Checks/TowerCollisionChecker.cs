@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public class TowerCollisionChecker : MonoBehaviour
 {
-    [SerializeField] private float upRayDist = 0.1f;
     private Enemy m_Enemy;
 
     //TODO

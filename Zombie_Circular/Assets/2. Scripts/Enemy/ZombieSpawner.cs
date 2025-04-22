@@ -10,6 +10,7 @@ public class ZombieSpawner : MonoBehaviour
     [Header("Spawn Settings")]
     [SerializeField] private Transform zombieSpawnPosition;
     [SerializeField] private GameObject zombiePrefab;
+    [SerializeField] private LayerMask zombieLayers;
 
     [Header("Difficulty Curve")]
     [SerializeField] private float initialSpawnCooldown = 5.0f; // 시작 스폰 간격 (초)

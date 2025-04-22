@@ -9,7 +9,6 @@ public class ZombieCollisionChecker : MonoBehaviour
 
     [SerializeField] private float frontRayDist = 0.1f;
     [SerializeField] private float backRayDist = 0.1f;
-    [SerializeField] private float upRayDist = 0.1f;
 
     private void Awake()
     {

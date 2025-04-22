@@ -28,9 +28,6 @@ public class Zombie : Pawn, IEnemyMovable
     [field: SerializeField] public float JumpForce { get; set; } = 1f;
     [SerializeField] public float MyDamage { get; set; } = 10f;
 
-    [Header("Detect")]
-    [SerializeField] private LayerMask enemyLayerMask;
-
     [Header("Attack")]
     [SerializeField] private Collider2D attackColliderHeadPivot;
     
@@ -41,6 +38,7 @@ public class Zombie : Pawn, IEnemyMovable
     private Collider2D m_myCollider;
     private Collider2D[] m_buffer = new Collider2D[8];
     private Rigidbody2D m_rigidBody;
+    private LayerMask m_enemyLayerMask;
     private State m_zombieState;
     private Animator m_animator;
 
@@ -54,6 +52,7 @@ public class Zombie : Pawn, IEnemyMovable
         m_myCollider = GetComponent<Collider2D>();
         m_size = m_myCollider.bounds.size;
         m_animator = GetComponent<Animator>();
+        m_enemyLayerMask = gameObject.layer;
     }
 
     private void OnEnable()
@@ -112,7 +111,7 @@ public class Zombie : Pawn, IEnemyMovable
             CapsuleDirection2D.Vertical,
             0f,
             m_buffer,
-            enemyLayerMask
+            m_enemyLayerMask
         );
 
         for (int i = 0; i < count; i++)
@@ -122,7 +121,7 @@ public class Zombie : Pawn, IEnemyMovable
 
             Vector2 dir = ((Vector2)hit.bounds.center - center).normalized;
             if (Vector2.Dot(dir, Vector2.up) > 0.3f) hasUp = true;
-            if (Vector2.Dot(dir, Vector2.down) > 0.3f) hasDown = true;
+            if (hit.gameObject.CompareTag("Zombie") && Vector2.Dot(dir, Vector2.down) > 0.3f) hasDown = true;
             if (Vector2.Dot(dir, Vector2.left) > 0.7f) hasLeft = true;
             if (Vector2.Dot(dir, Vector2.right) > 0.7f) hasRight = true;
         }

@@ -1,6 +1,6 @@
-using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
 public class Zombie : Pawn, IEnemyMovable
 {
     public enum State
@@ -12,16 +12,16 @@ public class Zombie : Pawn, IEnemyMovable
         Jump
     }
 
-    [Header("Physics")]
-    [SerializeField] private float m_delay = 0.5f;
+    //[Header("Physics")]
+    //[SerializeField] private float m_delay = 0.5f;
     [field: SerializeField] public float RunSpeed { get; set; } = 1f;
     [field: SerializeField] public float JumpForce { get; set; } = 1f;
 
     [Header("Detect")]
     [SerializeField] private LayerMask enemyLayerMask;
     
-    [Header("Debugging")]
-    [SerializeField] private TextMeshProUGUI text;
+    //[Header("Debugging")]
+    //[SerializeField] private TextMeshProUGUI text;
 
     private Vector2 m_size;
     private Collider2D m_myCollider;
@@ -35,6 +35,7 @@ public class Zombie : Pawn, IEnemyMovable
     private void Awake()
     {
         m_rigidBody = GetComponent<Rigidbody2D>();
+        m_rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         m_myCollider = GetComponent<Collider2D>();
         m_size = m_myCollider.bounds.size;
     }
@@ -46,7 +47,7 @@ public class Zombie : Pawn, IEnemyMovable
 
     private void Update()
     {
-        text.text = m_zombieState.ToString();
+        //text.text = m_zombieState.ToString();
     }
 
     private void FixedUpdate()
@@ -104,7 +105,7 @@ public class Zombie : Pawn, IEnemyMovable
         }
 
         // 이제 hasUp, hasDown, hasLeft, hasRight를 이용해 로직 처리
-        Debug.Log($"{this.name} hasUp : {hasUp} left : {hasLeft}, right : {hasRight}");
+        // Debug.Log($"{this.name} hasUp : {hasUp} left : {hasLeft}, right : {hasRight}");
     }
     #endregion
 

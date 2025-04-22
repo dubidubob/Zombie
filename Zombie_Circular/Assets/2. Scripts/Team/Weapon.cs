@@ -67,7 +67,7 @@ public class Weapon : MonoBehaviour
         // 모든 충돌체를 검사하여 x 위치가 가장 작은(가장 왼쪽) 좀비 찾기
         foreach (Collider2D zombieCollider in zombieColliders)
         {
-            if (zombieCollider.CompareTag("Monster"))
+            if (zombieCollider.CompareTag("Zombie"))
             {
                 float zombieXPos = zombieCollider.transform.position.x;
 
@@ -117,4 +117,21 @@ public class Weapon : MonoBehaviour
             go.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        if (FindCenter == null) return;
+
+        // Gizmo 색상 설정
+        Gizmos.color = Color.cyan;
+
+        // 박스 센터와 크기
+        Vector3 center = FindCenter.position;
+        Vector3 size = new Vector3(detectionWidth, detectionHeight, 0f);
+
+        // 2D OverlapBox와 같은 사각형 그리기
+        Gizmos.DrawWireCube(center, size);
+    }
+#endif
 }

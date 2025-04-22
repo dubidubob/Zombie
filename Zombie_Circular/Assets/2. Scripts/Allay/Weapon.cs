@@ -31,7 +31,6 @@ public class Weapon : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(FireCoolTime);
-            Debug.Log("¤¡");
             ShootRoutine();
         }
     }
@@ -78,7 +77,7 @@ public class Weapon : MonoBehaviour
                 }
             }
         }
-        Debug.Log($"{nearestZombie} ½î¼î");
+        //Debug.Log($"{nearestZombie} ½î¼î");
         // °¡Àå ¿ÞÂÊ¿¡ ÀÖ´Â Á»ºñÀÇ transform ¹ÝÈ¯
         return nearestZombie;
     }

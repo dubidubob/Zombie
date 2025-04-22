@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
@@ -20,8 +21,8 @@ public class Zombie : Pawn, IEnemyMovable
     [Header("Detect")]
     [SerializeField] private LayerMask enemyLayerMask;
     
-    //[Header("Debugging")]
-    //[SerializeField] private TextMeshProUGUI text;
+    [Header("Debugging")]
+    [SerializeField] private TextMeshProUGUI text;
 
     private Vector2 m_size;
     private Collider2D m_myCollider;
@@ -47,7 +48,7 @@ public class Zombie : Pawn, IEnemyMovable
 
     private void Update()
     {
-        //text.text = m_zombieState.ToString();
+        text.text = m_zombieState.ToString();
     }
 
     private void FixedUpdate()

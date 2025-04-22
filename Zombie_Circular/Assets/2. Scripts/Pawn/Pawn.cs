@@ -1,32 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Pawn : MonoBehaviour, IDamageable
 {
     [field: SerializeField] public float MaxHealth { get; set; } = 100f;
     public float CurrentHealth { get; set; }
-    #region Physics
     public Rigidbody2D RB { get; set; }
-    #endregion
+    public float MyDamage { get; set; }
+    
+
+    private void Awake()
+    {
+        RB = GetComponent<Rigidbody2D>();
+        MyDamage = 10;
+    }
 
     private void Start()
     {
         CurrentHealth = MaxHealth;
-        RB = GetComponent<Rigidbody2D>();
     }
 
     #region Health / Die
 
-    public void Damage(float damageAmount)
-    {
-        OnDamage(damageAmount);
-    }
-
-    public void Die()
-    {
-        OnDie();
-    }
+    public void Damage(float damageAmount)=> OnDamage(damageAmount);
+    public void Die() => OnDie();
 
     protected virtual void OnDamage(float damageAmount)
     {
@@ -41,20 +37,5 @@ public class Pawn : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
-    #endregion
-
-    #region Animation Triggers
-    private void AnimationTriggerEvent(PawnStateType triggerType)
-    {
-        //TODO
-    }
-
-    
-    public enum PawnStateType
-    {
-        Run,
-        Attack,
-        Stop
-    }
     #endregion
 }

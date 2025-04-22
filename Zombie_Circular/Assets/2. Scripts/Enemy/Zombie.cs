@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(Animator))]
 public class Zombie : Pawn, IEnemyMovable
 {
     public enum State
@@ -10,7 +10,15 @@ public class Zombie : Pawn, IEnemyMovable
         IdleRun,
         Back,
         Attack,
-        Jump
+        Jump, 
+        Die
+    }
+
+    private enum AnimState
+    { 
+        Run,
+        Attack,
+        Dead
     }
 
     //[Header("Physics")]
@@ -20,6 +28,9 @@ public class Zombie : Pawn, IEnemyMovable
 
     [Header("Detect")]
     [SerializeField] private LayerMask enemyLayerMask;
+
+    [Header("Attack")]
+    [SerializeField] private Collider2D attackColliderHeadPivot;
     
     [Header("Debugging")]
     [SerializeField] private TextMeshProUGUI text;
@@ -29,9 +40,10 @@ public class Zombie : Pawn, IEnemyMovable
     private Collider2D[] m_buffer = new Collider2D[8];
     private Rigidbody2D m_rigidBody;
     private State m_zombieState;
+    private Animator m_animator;
 
     private bool hasUp, hasDown, hasLeft, hasRight;
-    private bool isJumping=false;
+    private bool isJumping = false;
 
     private void Awake()
     {
@@ -39,11 +51,12 @@ public class Zombie : Pawn, IEnemyMovable
         m_rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         m_myCollider = GetComponent<Collider2D>();
         m_size = m_myCollider.bounds.size;
+        m_animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
     {
-        m_zombieState = State.IdleRun;
+        TransitionTo(State.IdleRun);
     }
 
     private void Update()
@@ -58,6 +71,7 @@ public class Zombie : Pawn, IEnemyMovable
 
     protected override void OnDie()
     {
+        TransitionTo(State.Die);
         gameObject.SetActive(false);
     }
 
@@ -113,15 +127,19 @@ public class Zombie : Pawn, IEnemyMovable
     #region States
     private void stateIdleRun() // !hasLeft
     {
+        
         m_rigidBody.velocity = new Vector2(-RunSpeed, m_rigidBody.velocity.y);
 
         if (hasUp)
         {
-            m_zombieState = State.Back;
+            TransitionTo(State.Back);
         }
         else if (hasLeft)
         {
-            m_zombieState = hasRight ? State.Stop : State.Jump;
+            if (hasRight)
+                TransitionTo(State.Stop);
+            else
+                TransitionTo(State.Jump);
         }
     }
     private void stateStop() // hasLeft, hasRight
@@ -129,9 +147,9 @@ public class Zombie : Pawn, IEnemyMovable
         m_rigidBody.velocity = new Vector2(0, m_rigidBody.velocity.y);
 
         if (hasLeft && !hasRight)
-            m_zombieState = State.Jump;
+            TransitionTo(State.Jump);
         else if (!hasLeft)
-            m_zombieState = State.IdleRun;
+            TransitionTo(State.IdleRun);
     }
 
     private void stateBack() // hasUp
@@ -140,10 +158,11 @@ public class Zombie : Pawn, IEnemyMovable
 
         if (!hasUp)
         {
-            m_zombieState = State.IdleRun;
+            TransitionTo(State.IdleRun);
         }
     }
 
+    // TODO 
     private void stateJump() // hasLeft, !hasRight
     {
         if (m_rigidBody.velocity.x > 0 && !hasDown)
@@ -162,7 +181,7 @@ public class Zombie : Pawn, IEnemyMovable
             if (m_rigidBody.velocity.y == 0)
             {
                 isJumping = false;
-                m_zombieState = State.Stop;
+                TransitionTo(State.Stop);
             }
         }
     }
@@ -171,7 +190,7 @@ public class Zombie : Pawn, IEnemyMovable
     {
         m_rigidBody.velocity = new Vector2(0, m_rigidBody.velocity.y);
         if (hasUp)
-            m_zombieState = State.Back;
+            TransitionTo(State.Back);
     }
     #endregion
 
@@ -181,13 +200,23 @@ public class Zombie : Pawn, IEnemyMovable
         if (collision.CompareTag("Tower"))
         {
             if (m_zombieState != State.Back)
-                m_zombieState = State.Attack;
+                TransitionTo(State.Attack);
         }
         else if (collision.CompareTag("Damageble"))
         {
             float damage = collision.gameObject.GetComponent<Bullet>().BulletDamage;
             Damage(damage);
         }
+    }
+
+    public void OnAttack()
+    {
+        attackColliderHeadPivot.enabled = true;
+    }
+
+    public void OffAttack()
+    {
+        attackColliderHeadPivot.enabled = false;
     }
 
     protected override void OnDamage(float damageAmount)
@@ -200,7 +229,23 @@ public class Zombie : Pawn, IEnemyMovable
     {
         if (collision.CompareTag("Tower"))
             if (m_zombieState != State.Back)
-                m_zombieState = State.IdleRun;
+                TransitionTo(State.IdleRun);
     }
     #endregion
+
+    private void TransitionTo(State newState)
+    {
+        if (m_zombieState == newState) return;
+
+        m_zombieState = newState;
+        SetAnimationState(newState);
+    }
+
+    private void SetAnimationState(State state)
+    {
+        Debug.Log($"{state} ป๓ลย");
+        m_animator.SetBool("IsAttacking", state == State.Attack);
+        m_animator.SetBool("IsIdle", state == State.IdleRun || state == State.Back || state == State.Jump || state == State.Stop);
+        m_animator.SetBool("IsDead", state == State.Die);
+    }
 }

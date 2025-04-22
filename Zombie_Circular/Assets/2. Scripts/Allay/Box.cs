@@ -52,4 +52,13 @@ public class Box : MonoBehaviour, IDamageable
     {
         this.transform.position = new Vector2(CenterPos.position.x, this.transform.position.y);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("HurtHero"))
+        {
+            var pawn = collision.gameObject.GetComponentInParent<Pawn>();
+            Damage(pawn.MyDamage);
+        }
+    }
 }

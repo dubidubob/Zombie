@@ -117,34 +117,10 @@ public class ZombieSpawner : MonoBehaviour
     {
         if (zombiePrefab == null || zombieSpawnPosition == null) return;
 
-        try
-        {
-            // 오브젝트 풀링 사용
-            GameObject zombie = ObjectPoolManager.SpawnObject(
-                zombiePrefab,
-                zombieSpawnPosition.position,
-                Quaternion.identity
-            );
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"좀비 스폰 중 오류 발생: {e.Message}");
-        }
+        GameObject zombie = ObjectPoolManager.SpawnObject(
+            zombiePrefab,
+            zombieSpawnPosition.position,
+            Quaternion.identity
+        );
     }
-
-#if UNITY_EDITOR
-    [Header("Debug")]
-    [SerializeField] private bool showDebugInfo = true;
-
-    private void OnGUI()
-    {
-        if (!showDebugInfo || !isSpawning) return;
-
-        GUILayout.BeginArea(new Rect(10, 10, 300, 100));
-        GUILayout.Label($"난이도: {CalculateDifficultyLevel():P0}");
-        GUILayout.Label($"현재 스폰 간격: {CalculateSpawnInterval():F2}초");
-        GUILayout.Label($"경과 시간: {Time.time - gameStartTime:F0}초");
-        GUILayout.EndArea();
-    }
-#endif
 }

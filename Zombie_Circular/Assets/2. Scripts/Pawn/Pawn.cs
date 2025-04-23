@@ -32,7 +32,7 @@ public class Pawn : MonoBehaviour, IDamageable
     protected virtual void OnDie()
     {
         // TODO: Object Pooling µî
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 
     #endregion

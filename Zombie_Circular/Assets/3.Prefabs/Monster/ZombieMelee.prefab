@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3879850738069150251}
   - component: {fileID: 353067352456269017}
   - component: {fileID: 7372890157507575083}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: ZombieMelee
   m_TagString: Zombie
   m_Icon: {fileID: 0}
@@ -74,9 +74,6 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <RunSpeed>k__BackingField: 1
   <JumpForce>k__BackingField: 3
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
   attackColliderHeadPivot: {fileID: 3651119072473931821}
   text: {fileID: 3796586190364949658}
 --- !u!50 &353067352456269017
@@ -138,8 +135,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0228647, y: 0.16005257}
-  m_Size: {x: 0.3993957, y: 0.80793685}
+  m_Offset: {x: -0.10716805, y: 0.22902805}
+  m_Size: {x: 0.5680024, y: 0.8539206}
   m_Direction: 0
 --- !u!1 &1501531939755300475
 GameObject:
@@ -153,7 +150,7 @@ GameObject:
   - component: {fileID: 2295454180104007076}
   - component: {fileID: 1550158262774217274}
   - component: {fileID: 5903128252833459594}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +319,7 @@ GameObject:
   - component: {fileID: 6659220801171038643}
   - component: {fileID: 1925636482780111965}
   - component: {fileID: 3796586190364949658}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -739,7 +736,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5245326634786080735}
   - component: {fileID: 5037864423338047186}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WalkCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

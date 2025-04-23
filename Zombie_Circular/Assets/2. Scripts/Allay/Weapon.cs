@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
 public class Weapon : MonoBehaviour
@@ -81,16 +82,17 @@ public class Weapon : MonoBehaviour
         return nearestZombie;
     }
 
-    private Vector2 Aim(Transform target)
+    private Vector2 Aim(Transform originTarget)
     {
-        // 1. 타겟 방향 벡터 계산
-        Vector2 dir = target.position - FirePlace.position;
-        dir.Normalize();  // 크기 1로 정규화 (선택)
+        Vector2 target = new Vector2(originTarget.position.x + 0.5f, originTarget.position.y);
+        // 타겟 방향 벡터
+        Vector2 dir = target - (Vector2)FirePlace.position;
+        dir.Normalize();
 
-        // 2. 각도(rad → deg) 계산
+        // 각도
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-        // 3. Z축 회전만 반영
+        // Z축 회전 only, 빼도 됨
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
         return dir;
@@ -109,7 +111,10 @@ public class Weapon : MonoBehaviour
             float randomAngle = Random.Range(-half, half);
 
             Vector2 ShootingDir = Quaternion.Euler(0, 0, randomAngle) * dir;
-            GameObject go = Instantiate(bulletPrefab, FirePlace.position, Quaternion.identity);
+            GameObject go = ObjectPoolManager.SpawnObject(
+                bulletPrefab,
+                FirePlace.position, 
+                Quaternion.identity);
             go.GetComponent<Bullet>().BulletDamage = bulletDamage; // 데미지 설정
             Vector2 impulse = ShootingDir * shootingForce;
             go.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);

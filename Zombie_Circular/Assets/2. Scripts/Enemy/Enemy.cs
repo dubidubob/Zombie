@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour, IDamageable, ITriggerCheckable
     public void Die()
     {
         //TODO : Object Pooling
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
     #endregion
 

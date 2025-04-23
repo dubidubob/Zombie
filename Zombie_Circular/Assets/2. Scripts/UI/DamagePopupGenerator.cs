@@ -1,24 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class DamagePopupGenerator : MonoBehaviour
 {
     public static DamagePopupGenerator Instance;
-    public GameObject prefab;
+    public GameObject DamageUIPrefab;
+    [SerializeField] float randomPosRange =0.1f;
     private void Start()
     {
         Instance = this;   
     }
 
-    public void CreatePopup(Vector3 position, string text)
-    { 
-        var popup = Instantiate(prefab, position, Quaternion.identity);
+    public void CreatePopup(Vector2 originPos, string text)
+    {
+        Vector2 pos = new Vector2(originPos.x + Random.Range(0f, randomPosRange), originPos.y + Random.Range(0f, randomPosRange));
+        GameObject popup = ObjectPoolManager.SpawnObject(
+            DamageUIPrefab,
+            pos,
+            Quaternion.identity
+            );
         var temp = popup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         temp.text = text;
 
-        // Destroy Timer
-        Destroy(popup, 1f);
+        SetAcitveFalse(popup, 1f);
+    }
+
+    private IEnumerator SetAcitveFalse(GameObject go, float delay)
+    {
+        ObjectPoolManager.ReturnObjectPool(go);
+        yield return new WaitForSeconds(delay);
     }
 }

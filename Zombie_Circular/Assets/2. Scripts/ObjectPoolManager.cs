@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.ComponentModel;
 
 public class ObjectPoolManager : MonoBehaviour
 {
@@ -11,13 +12,24 @@ public class ObjectPoolManager : MonoBehaviour
         PooledObjectInfo pool = ObjectPools.Find(p=>p.LookupString == objectToSpawn.name);
         if (pool == null)
         {
-            pool = new PooledObjectInfo() { LookupString = objectToSpawn.name };
+            var container = new GameObject(objectToSpawn.name);
+            pool = new PooledObjectInfo() { LookupString = objectToSpawn.name, ParentGo = container };
             ObjectPools.Add(pool);
         }
+
+        
         GameObject spawnableObj = pool.InactiveObjects.FirstOrDefault();
         if (spawnableObj == null)
         {
-            spawnableObj = Instantiate(objectToSpawn, spawnPosition, spawnRotation);
+            pool.InactiveObjects.RemoveAll(obj => obj == null);
+            Debug.Log("null ∞…∏≤");
+        }
+        spawnableObj = pool.InactiveObjects.FirstOrDefault();
+
+        if (spawnableObj == null)
+        {
+            spawnableObj = Instantiate(objectToSpawn, spawnPosition, spawnRotation, pool.ParentGo.transform);
+            spawnableObj.name = objectToSpawn.name;
         }
         else
         { 
@@ -28,6 +40,7 @@ public class ObjectPoolManager : MonoBehaviour
             spawnableObj.SetActive(true);
         }
 
+        Debug.Log($"{spawnableObj.name} ≥≠ ¡·¥Ÿ?");
         return spawnableObj;
     }
 
@@ -50,5 +63,6 @@ public class ObjectPoolManager : MonoBehaviour
 public class PooledObjectInfo
 {
     public string LookupString;
+    public GameObject ParentGo;
     public List<GameObject> InactiveObjects = new List<GameObject>();
 }

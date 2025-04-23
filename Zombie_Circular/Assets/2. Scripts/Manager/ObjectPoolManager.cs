@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+/// <summary>
+/// ObjectPools에서 각 poolable pool 관리
+/// PooledObjectInfo의 ParentGo 안으로 관련 poolable 수납
+/// TODO : Poolable 명시
+/// </summary>
 public class ObjectPoolManager : MonoBehaviour
 {
     public static List<PooledObjectInfo> ObjectPools = new List<PooledObjectInfo>();
@@ -47,7 +51,7 @@ public class ObjectPoolManager : MonoBehaviour
         PooledObjectInfo pool = ObjectPools.Find(p => p.LookupString == goName);
         if (pool == null)
         {
-            Debug.LogWarning($"{obj.name} No pool to return this obj");
+            // Debug.LogWarning($"{obj.name} No pool to return this obj");
             obj.SetActive(false);
         }
         else

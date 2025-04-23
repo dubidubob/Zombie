@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// 시간에 따라 좀비 스폰 속도가 점진적으로 증가하는 스포너
@@ -14,12 +13,12 @@ public class ZombieSpawner : MonoBehaviour
     [SerializeField] private LayerMask zombieLayers;
 
     [Header("Difficulty Curve")]
-    [SerializeField] private float minimumSpawnCooldown = 1.0f; // 최소 스폰 간격 (초)
-    [SerializeField] private float difficultyRampUpTime = 5.0f; // 최대 난이도 도달 시간 (초)
-    [SerializeField] private AnimationCurve difficultyCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // 난이도 증가 곡선
+    [SerializeField] private float minimumSpawnCooldown = 1.0f; // 최소 스폰 간격
+    [SerializeField] private float difficultyRampUpTime = 5.0f; // 최대 난이도 도달 시간
+    [SerializeField] private AnimationCurve difficultyCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // 난이도 증가
 
     [Header("Variation")]
-    [SerializeField] private float randomVariation = 0.2f; // 스폰 시간 무작위 변동 비율 (0.2 = ±20%)
+    [SerializeField] private float randomVariation = 0.2f; // 스폰 시간 랜덤 변동 비율
 
     private float m_gameStartTime;
     private bool m_isSpawning = false;
@@ -31,6 +30,7 @@ public class ZombieSpawner : MonoBehaviour
     {
         m_availableLayers = GetSelectedLayers(zombieLayers);
     }
+
     private void OnEnable()
     {
         m_curSpawnCoolTime = minimumSpawnCooldown;
@@ -114,7 +114,7 @@ public class ZombieSpawner : MonoBehaviour
     {
         if (m_availableLayers.Length == 0)
         {
-            Debug.LogWarning("체크된 레이어가 없습니다!");
+            Debug.LogWarning("No Checked Layer");
             return;
         }
 

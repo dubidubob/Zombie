@@ -1,10 +1,16 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
-
-[RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(Animator))]
+/// <summary>
+/// 데미지 수용  - Tag : HurtingEnemy로 데미지를 받고
+/// 데미지 주입  - Tag : Truck으로 데미지를 주고
+/// 행동 결정   - Finite State 패턴으로 행동 결정
+/// 주변 감지   - Capsul Collision으로 주변 감지 (현재 Layer Only)
+/// TODO : 위 사항 책임 분리 필요, State Machine 시스템
+/// </summary>
+[RequireComponent(typeof(Collider2D), typeof(Animator))]
 public class Zombie : Pawn
 {
-    public enum State
+    public enum ZombieState
     {
         Stop,
         IdleRun,
@@ -12,13 +18,6 @@ public class Zombie : Pawn
         Attack,
         Jump, 
         Die
-    }
-
-    private enum AnimState
-    { 
-        Run,
-        Attack,
-        Dead
     }
 
     [field : Header("Physics")]
@@ -31,6 +30,7 @@ public class Zombie : Pawn
 
     [Header("Layer")]
     [SerializeField] private LayerMask firstZombieLayer;
+
     //[Header("Debugging")]
     //[SerializeField] private TextMeshProUGUI text;
 
@@ -39,7 +39,7 @@ public class Zombie : Pawn
     private Collider2D[] m_buffer = new Collider2D[8];
     private Rigidbody2D m_rigidBody;
     private LayerMask m_enemyLayerMask;
-    private State m_zombieState;
+    private ZombieState m_zombieState;
     private Animator m_animator;
     private Rigidbody2D m_frontZombieRB;
 
@@ -68,7 +68,7 @@ public class Zombie : Pawn
 
     private void OnEnable()
     {
-        TransitionTo(State.IdleRun);
+        TransitionTo(ZombieState.IdleRun);
     }
 
     //private void Update()
@@ -79,6 +79,7 @@ public class Zombie : Pawn
     private void FixedUpdate()
     {
         Detect();
+        RunState();
     }
 
     #region Detect
@@ -86,15 +87,6 @@ public class Zombie : Pawn
     {
         ResetDetectionFlags();
         DetectSurroundings();
-
-        switch (m_zombieState)
-        {
-            case State.IdleRun: stateIdleRun(); break;
-            case State.Stop: stateStop(); break;
-            case State.Back: stateBack(); break;
-            case State.Attack: stateAttack(); break;
-            case State.Jump: stateJump(); break;
-        }
     }
     private void ResetDetectionFlags()
     {
@@ -126,12 +118,23 @@ public class Zombie : Pawn
             if (Vector2.Dot(dir, Vector2.right) > 0.7f) hasRight = true;
         }
 
-        // ���� hasUp, hasDown, hasLeft, hasRight�� �̿��� ���� ó��
         // Debug.Log($"{this.name}, hasup : {hasUp} left : {hasLeft}, right : {hasRight} down : {hasDown}");
     }
     #endregion
 
     #region States
+    private void RunState()
+    {
+        switch (m_zombieState)
+        {
+            case ZombieState.IdleRun: stateIdleRun(); break;
+            case ZombieState.Stop: stateStop(); break;
+            case ZombieState.Back: stateBack(); break;
+            case ZombieState.Attack: stateAttack(); break;
+            case ZombieState.Jump: stateJump(); break;
+        }
+    }
+
     private void stateIdleRun() // !hasLeft
     {
         
@@ -139,19 +142,19 @@ public class Zombie : Pawn
 
         if (hasUp)
         {
-            TransitionTo(State.Back);
+            TransitionTo(ZombieState.Back);
         }
         else if (hasLeft)
         {
             if (hasRight)
-                TransitionTo(State.Stop);
+                TransitionTo(ZombieState.Stop);
             else
-                TransitionTo(State.Jump);
+                TransitionTo(ZombieState.Jump);
         }
     }
     private void stateStop() // hasLeft, hasRight
     {
-        // �� ������ �ӵ� �� �ð� = �̵� �Ÿ�
+        // 앞 좀비의 속도 × 시간 = 이동 거리
         if (m_frontZombieRB != null)
         {
             Vector2 pushDelta = m_frontZombieRB.velocity * Time.fixedDeltaTime;
@@ -159,9 +162,9 @@ public class Zombie : Pawn
         }
         
         if (hasLeft && !hasRight)
-            TransitionTo(State.Jump);
+            TransitionTo(ZombieState.Jump);
         else if (!hasLeft)
-            TransitionTo(State.IdleRun);
+            TransitionTo(ZombieState.IdleRun);
     }
 
     private void stateBack() // hasUp
@@ -170,54 +173,52 @@ public class Zombie : Pawn
 
         if (!hasUp)
         {
-            TransitionTo(State.IdleRun);
+            TransitionTo(ZombieState.IdleRun);
         }
     }
 
-    // TODO 
     private void stateJump() // hasLeft, !hasRight
     {
         if (hasUp)
-            TransitionTo(State.Back);
+            TransitionTo(ZombieState.Back);
         else
-            TransitionTo(State.IdleRun);
+            TransitionTo(ZombieState.IdleRun);
     }
 
-    private void jump()
-    {
-        m_rigidBody.velocity = new Vector2(-RunSpeed, JumpForce);
-        jumpScheduled = false;
-    }
+        private void jump()
+        {
+            m_rigidBody.velocity = new Vector2(-RunSpeed, JumpForce);
+            jumpScheduled = false;
+        }
 
     private void stateAttack()
     {
         m_rigidBody.velocity = new Vector2(0, m_rigidBody.velocity.y);
         if (hasUp && !hasDown)
-            TransitionTo(State.Back);
+            TransitionTo(ZombieState.Back);
     }
     #endregion
 
     #region Tower, Bullet, Damage, Die
-    /// <summary>
-    ///  Zombie Attack Animation Events
-    /// </summary>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Tower"))
+        if (collision.CompareTag("Trcuk"))
         {
-            if (m_zombieState != State.Back)
+            if (m_zombieState != ZombieState.Back)
             {
-                TransitionTo(State.Attack);
+                TransitionTo(ZombieState.Attack);
             }
             
         }
-        else if (collision.CompareTag("Damageble"))
+        else if (collision.CompareTag("HurtingEnemy"))
         {
             float damage = collision.gameObject.GetComponent<Bullet>().BulletDamage;
             Damage(damage);
         }
     }
 
+    
+    //  Zombie Attack Animation Events
     public void OnAttack() { attackColliderHeadPivot.enabled = true; }
     public void OffAttack() { attackColliderHeadPivot.enabled = false; }
 
@@ -230,19 +231,19 @@ public class Zombie : Pawn
 
     protected override void OnDie()
     {
-        TransitionTo(State.Die);
+        TransitionTo(ZombieState.Die);
         ObjectPoolManager.ReturnObjectPool(gameObject);
     }
     #endregion
 
     #region State Helpers : Transition, Animation
-    private void TransitionTo(State newState)
+    private void TransitionTo(ZombieState newState)
     {
         if (m_zombieState == newState) return;
 
         m_zombieState = newState;
         
-        if (newState == State.Jump && !jumpScheduled)
+        if (newState == ZombieState.Jump && !jumpScheduled)
         {
             jumpScheduled = true;
             Invoke(nameof(jump), 0.5f);
@@ -251,12 +252,12 @@ public class Zombie : Pawn
         SetAnimationState(newState);
     }
 
-    private void SetAnimationState(State state)
+    private void SetAnimationState(ZombieState state)
     {
-        //Debug.Log($"{state} ����");
-        m_animator.SetBool("IsAttacking", state == State.Attack);
-        m_animator.SetBool("IsIdle", state == State.IdleRun || state == State.Back || state == State.Jump || state == State.Stop);
-        m_animator.SetBool("IsDead", state == State.Die);
+        //Debug.Log($"{state} 상태");
+        m_animator.SetBool("IsAttacking", state == ZombieState.Attack);
+        m_animator.SetBool("IsIdle", state == ZombieState.IdleRun || state == ZombieState.Back || state == ZombieState.Jump || state == ZombieState.Stop);
+        m_animator.SetBool("IsDead", state == ZombieState.Die);
     }
     #endregion
 }

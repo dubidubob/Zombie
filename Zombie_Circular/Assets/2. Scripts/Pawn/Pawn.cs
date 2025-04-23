@@ -1,12 +1,14 @@
-using UnityEngine;
-
+﻿using UnityEngine;
+/// <summary>
+/// 움직임 가능한 Damageable
+/// </summary>
+[RequireComponent(typeof(Rigidbody2D))]
 public class Pawn : MonoBehaviour, IDamageable
 {
     [field: SerializeField] public float MaxHealth { get; set; } = 100f;
     public float CurrentHealth { get; set; }
     public Rigidbody2D RB { get; set; }
     
-
     private void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
@@ -16,8 +18,6 @@ public class Pawn : MonoBehaviour, IDamageable
     {
         CurrentHealth = MaxHealth;
     }
-
-    #region Health / Die
 
     public void Damage(float damageAmount)=> OnDamage(damageAmount);
     public void Die() => OnDie();
@@ -29,11 +29,5 @@ public class Pawn : MonoBehaviour, IDamageable
             OnDie();
     }
 
-    protected virtual void OnDie()
-    {
-        // TODO: Object Pooling ��
-        // Destroy(gameObject);
-    }
-
-    #endregion
+    protected virtual void OnDie() { }
 }

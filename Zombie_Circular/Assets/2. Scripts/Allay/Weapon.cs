@@ -1,36 +1,41 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.GraphicsBuffer;
 
+/// <summary>
+/// Tag : Zombieë¥¼ ì§€ì • ë²”ìœ„ ë‚´ì—ì„œ ì°¾ì•„ ì´ì„ ìœë‹¤.
+/// Bullet Spawner
+/// TODO : Weapon base ì œì‘
+/// </summary>
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private Transform FirePlace;
-    [SerializeField] private Transform FindCenter;
+    [Header("Detection Area")]
+    [SerializeField] private Transform detectionCenter;
     [SerializeField] private float detectionWidth;
     [SerializeField] private float detectionHeight;
-    [SerializeField] private LayerMask zombieLayer;
+    [SerializeField] private LayerMask zombieLayers;
 
-    [SerializeField] private float FireCoolTime = 1f;
-    [SerializeField] private int BulletNumber = 5;
-    [SerializeField] private float shootingForce=1f;
-    [SerializeField] private float bulletAngle;
+    [Header("Weapon Owning Data")]
+    [SerializeField] private Transform shootingPlace;
+    [SerializeField] private float shootingForce = 1f;
+    [SerializeField] private float shootingCoolTime = 1f;
+    [SerializeField] private float shootingtAngleRange = 15;
+    [SerializeField] private int bulletNumber = 5;
 
-    [Header("Bullet")]
+    [Header("Bullet Owning Data")]
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletDamage;
     
-    private void Start()
+
+    void Start()
     {
         StartCoroutine(Shooting());
     }
 
     private IEnumerator Shooting()
     {
-        // ¹«ÇÑ ¹İº¹
         while (true)
         {
-            yield return new WaitForSeconds(FireCoolTime);
+            yield return new WaitForSeconds(shootingCoolTime);
             ShootRoutine();
         }
     }
@@ -40,31 +45,28 @@ public class Weapon : MonoBehaviour
         Transform target = FindNearestZombie();
         if(target == null) return;
 
-        Vector2 dir = Aim(target);
-        Shoot(dir);
+        Vector2 shootingDir = Aim(target);
+        Shoot(shootingDir);
     }
 
-    // ¿µ¿ª °¡Àå °¡±îÀÌ¿¡ ÀÖ´Â Á»ºñ¸¦ Ã£±â
     private Transform FindNearestZombie()
     {
-        // Ãæµ¹ ¿µ¿ª ³»¿¡ ÀÖ´Â ¸ğµç Á»ºñ¸¦ Ã£À½        
-        Collider2D[] zombieColliders = Physics2D.OverlapBoxAll(new Vector2(FindCenter.position.x, FindCenter.position.y),
+        
+        Collider2D[] zombiesInDetectionArea = Physics2D.OverlapBoxAll(new Vector2(detectionCenter.position.x, detectionCenter.position.y),
                                                                 new Vector2(detectionWidth, detectionHeight),
                                                                 0f,
-                                                                zombieLayer);
-        // ¾Æ¹« Á»ºñµµ ¹ß°ßµÇÁö ¾Ê¾ÒÀ¸¸é null ¹İÈ¯
-        if (zombieColliders.Length == 0)
+                                                                zombieLayers);
+        if (zombiesInDetectionArea.Length == 0)
         {
-            Debug.Log("½´ÆÃÇÒ °Ô ¾ø´Âµª¼î?");
+            //Debug.Log("Nothing To Spawn");
             return null;
         }
-            
 
         Transform nearestZombie = null;
         float minXPosition = float.MaxValue;
 
-        // ¸ğµç Ãæµ¹Ã¼¸¦ °Ë»çÇÏ¿© x À§Ä¡°¡ °¡Àå ÀÛÀº(°¡Àå ¿ŞÂÊ) Á»ºñ Ã£±â
-        foreach (Collider2D zombieCollider in zombieColliders)
+        // xìœ„ì¹˜ê°€ ê°€ì¥ ì‘ì€ ì¢€ë¹„ ì°¾ê¸°
+        foreach (Collider2D zombieCollider in zombiesInDetectionArea)
         {
             if (zombieCollider.CompareTag("Zombie"))
             {
@@ -77,64 +79,41 @@ public class Weapon : MonoBehaviour
                 }
             }
         }
-        //Debug.Log($"{nearestZombie} ½î¼î");
-        // °¡Àå ¿ŞÂÊ¿¡ ÀÖ´Â Á»ºñÀÇ transform ¹İÈ¯
+        
         return nearestZombie;
     }
 
     private Vector2 Aim(Transform originTarget)
     {
+        // í¬ë¬¼ì„  ê³ ë ¤, ë¯¸ì„¸ì¡°ì •
         Vector2 target = new Vector2(originTarget.position.x + 0.5f, originTarget.position.y);
-        // Å¸°Ù ¹æÇâ º¤ÅÍ
-        Vector2 dir = target - (Vector2)FirePlace.position;
-        dir.Normalize();
+        Vector2 shootingDir = target - (Vector2)shootingPlace.position;
+        shootingDir.Normalize();
 
-        // °¢µµ
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(shootingDir.y, shootingDir.x) * Mathf.Rad2Deg;
 
-        // ZÃà È¸Àü only, »©µµ µÊ
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
-        return dir;
+        return shootingDir;
     }
 
 
-    // ½î±â : ¸ğµç bulletÀÇ À§Ä¡°¡ Á¶±İÀº ·£´ı
+    // ì˜ê¸° : ëª¨ë“  bulletì˜ ìœ„ì¹˜ê°€ ì¡°ê¸ˆì€ ëœë¤
     private void Shoot(Vector2 dir)
     {
-        dir.Normalize();
-        
-        float half = bulletAngle * 0.5f;
+        float halfAngleRange = shootingtAngleRange * 0.5f;
 
-        for (int cnt = 0; cnt < BulletNumber; cnt++)
+        for (int cnt = 0; cnt < bulletNumber; cnt++)
         {
-            float randomAngle = Random.Range(-half, half);
+            float randomAngle = Random.Range(-halfAngleRange, halfAngleRange);
 
             Vector2 ShootingDir = Quaternion.Euler(0, 0, randomAngle) * dir;
             GameObject go = ObjectPoolManager.SpawnObject(
                 bulletPrefab,
-                FirePlace.position, 
+                shootingPlace.position, 
                 Quaternion.identity);
-            go.GetComponent<Bullet>().BulletDamage = bulletDamage; // µ¥¹ÌÁö ¼³Á¤
+            go.GetComponent<Bullet>().BulletDamage = bulletDamage; // Bullet ë°ë¯¸ì§€ ì„¤ì •
+
             Vector2 impulse = ShootingDir * shootingForce;
             go.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
-    {
-        if (FindCenter == null) return;
-
-        // Gizmo »ö»ó ¼³Á¤
-        Gizmos.color = Color.cyan;
-
-        // ¹Ú½º ¼¾ÅÍ¿Í Å©±â
-        Vector3 center = FindCenter.position;
-        Vector3 size = new Vector3(detectionWidth, detectionHeight, 0f);
-
-        // 2D OverlapBox¿Í °°Àº »ç°¢Çü ±×¸®±â
-        Gizmos.DrawWireCube(center, size);
-    }
-#endif
 }

@@ -1,27 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Box : MonoBehaviour, IDamageable
+public class Damageable : MonoBehaviour, IDamageable
 {
     [field: SerializeField] public float MaxHealth { get; set; } = 100f;
-    [SerializeField] private Slider HpSlider;
-    [SerializeField] private Transform CenterPos;
+    [SerializeField] private Slider hpSlider;
+    [SerializeField] private Transform centerPos;
+    [SerializeField] private float xOffSet;
     public float CurrentHealth { get; set; }
 
     private void Awake()
     {
-        if (HpSlider == null)
+        if (hpSlider == null)
         {
-            HpSlider = GetComponentInChildren<Slider>();
+            hpSlider = GetComponentInChildren<Slider>();
         }
-        HpSlider.maxValue = MaxHealth;
-        HpSlider.value = HpSlider.maxValue;
+        hpSlider.maxValue = MaxHealth;
+        hpSlider.value = hpSlider.maxValue;
         CurrentHealth = MaxHealth;
         
-        if (CenterPos == null)
+        if (centerPos == null)
         {
             Transform child = transform.Find("CenterPoint");
-            CenterPos = child.transform;
+            centerPos = child.transform;
         }
     }
 
@@ -45,14 +46,14 @@ public class Box : MonoBehaviour, IDamageable
 
     private void UpdateHpPanel()
     {
-        HpSlider.value = Mathf.Clamp((float)CurrentHealth, 0f, MaxHealth);
+        hpSlider.value = Mathf.Clamp((float)CurrentHealth, 0f, MaxHealth);
     }
     #endregion
 
     // 위치 고정
     private void FixedUpdate()
     {
-        this.transform.position = new Vector2(CenterPos.position.x, this.transform.position.y);
+        this.transform.position = new Vector2(centerPos.position.x+ xOffSet, this.transform.position.y);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

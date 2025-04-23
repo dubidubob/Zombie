@@ -2,9 +2,9 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class DamagePopupGenerator : MonoBehaviour
+public class DamagePopupSpawner : MonoBehaviour
 {
-    public static DamagePopupGenerator Instance;
+    public static DamagePopupSpawner Instance;
     public GameObject DamageUIPrefab;
     [SerializeField] float randomPosRange =0.1f;
     private void Start()

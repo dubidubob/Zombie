@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(Animator))]
@@ -30,8 +29,8 @@ public class Zombie : Pawn, IEnemyMovable
     [SerializeField] private Collider2D attackColliderHeadPivot;
     [SerializeField] public float MyDamage { get; set; } = 10f;
 
-    [Header("Debugging")]
-    [SerializeField] private TextMeshProUGUI text;
+    //[Header("Debugging")]
+    //[SerializeField] private TextMeshProUGUI text;
 
     private Vector2 m_size;
     private Collider2D m_myCollider;
@@ -43,9 +42,14 @@ public class Zombie : Pawn, IEnemyMovable
     private Rigidbody2D m_frontZombieRB;
 
     private bool hasUp, hasDown, hasLeft, hasRight;
-    private bool isJumping = false;
+    private bool jumpScheduled = false;
 
     private void Awake()
+    {
+        Init();
+    }
+
+    private void Init()
     {
         m_rigidBody = GetComponent<Rigidbody2D>();
         m_rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -60,26 +64,14 @@ public class Zombie : Pawn, IEnemyMovable
         TransitionTo(State.IdleRun);
     }
 
-    private void Update()
-    {
-        text.text = m_zombieState.ToString();
-    }
+    //private void Update()
+    //{
+    //    text.text = m_zombieState.ToString();
+    //}
 
     private void FixedUpdate()
     {
         Detect();
-    }
-
-    protected override void OnDie()
-    {
-        TransitionTo(State.Die);
-        //StartCoroutine(DeactivateAfterDelay(0.5f));
-    }
-
-    private IEnumerator DeactivateAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        ObjectPoolManager.ReturnObjectPool(gameObject);
     }
 
     #region Detect
@@ -121,21 +113,14 @@ public class Zombie : Pawn, IEnemyMovable
             if (hit == m_myCollider) continue;
 
             Vector2 dir = ((Vector2)hit.bounds.center - center).normalized;
-            if (Vector2.Dot(dir, Vector2.up) > 0.3f) { hasUp = true; m_frontZombieRB = hit.GetComponent<Rigidbody2D>(); }
-            if (hit.gameObject.CompareTag("Zombie") && Vector2.Dot(dir, Vector2.down) > 0.3f) hasDown = true;
+            if (Vector2.Dot(dir, Vector2.up) > 0.5f) { hasUp = true; m_frontZombieRB = hit.GetComponent<Rigidbody2D>(); }
+            if (hit.gameObject.CompareTag("Zombie") && Vector2.Dot(dir, Vector2.down) > 0.5f) hasDown = true;
             if (Vector2.Dot(dir, Vector2.left) > 0.7f) hasLeft = true;
             if (Vector2.Dot(dir, Vector2.right) > 0.7f) hasRight = true;
         }
 
         // 이제 hasUp, hasDown, hasLeft, hasRight를 이용해 로직 처리
-        if (m_frontZombieRB == null)
-        {
-            Debug.Log($"{this.name}, hasUp : {hasUp} left : {hasLeft}, right : {hasRight}");
-        }
-        else
-        {
-            Debug.Log($"{this.name}, {m_frontZombieRB.name} hasUp : {hasUp} left : {hasLeft}, right : {hasRight}");
-        }
+        Debug.Log($"{this.name}, hasup : {hasUp} left : {hasLeft}, right : {hasRight} down : {hasDown}");
     }
     #endregion
 
@@ -185,32 +170,39 @@ public class Zombie : Pawn, IEnemyMovable
     // TODO 
     private void stateJump() // hasLeft, !hasRight
     {
-        Invoke("jump", 0.5f);
-
         if (hasUp)
             TransitionTo(State.Back);
+        else
+            TransitionTo(State.IdleRun);
     }
 
     private void jump()
     {
         m_rigidBody.velocity = new Vector2(-RunSpeed, JumpForce);
+        jumpScheduled = false;
     }
 
     private void stateAttack()
     {
         m_rigidBody.velocity = new Vector2(0, m_rigidBody.velocity.y);
-        if (hasUp)
+        if (hasUp && !hasDown)
             TransitionTo(State.Back);
     }
     #endregion
 
-    #region Tower, Bullet
+    #region Tower, Bullet, Damage, Die
+    /// <summary>
+    ///  Zombie Attack Animation Events
+    /// </summary>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Tower"))
         {
             if (m_zombieState != State.Back)
+            {
                 TransitionTo(State.Attack);
+            }
+            
         }
         else if (collision.CompareTag("Damageble"))
         {
@@ -219,9 +211,6 @@ public class Zombie : Pawn, IEnemyMovable
         }
     }
 
-    /// <summary>
-    ///  Zombie Attack Animation Events
-    /// </summary>
     public void OnAttack() { attackColliderHeadPivot.enabled = true; }
     public void OffAttack() { attackColliderHeadPivot.enabled = false; }
 
@@ -229,13 +218,13 @@ public class Zombie : Pawn, IEnemyMovable
     {
         base.OnDamage(damageAmount);
 
-        DamagePopupGenerator.Instance.CreatePopup(transform.position, damageAmount.ToString());
+        DamagePopupSpawner.Instance.CreatePopup(transform.position, damageAmount.ToString());
     }
-    private void OnTriggerExit2D(Collider2D collision)
+
+    protected override void OnDie()
     {
-        if (collision.CompareTag("Tower"))
-            if (m_zombieState != State.Back)
-                TransitionTo(State.IdleRun);
+        TransitionTo(State.Die);
+        ObjectPoolManager.ReturnObjectPool(gameObject);
     }
     #endregion
 
@@ -245,6 +234,13 @@ public class Zombie : Pawn, IEnemyMovable
         if (m_zombieState == newState) return;
 
         m_zombieState = newState;
+        
+        if (newState == State.Jump && !jumpScheduled)
+        {
+            jumpScheduled = true;
+            Invoke(nameof(jump), 0.5f);
+        }
+
         SetAnimationState(newState);
     }
 

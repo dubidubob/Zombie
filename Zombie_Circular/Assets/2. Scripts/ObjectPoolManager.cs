@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System.ComponentModel;
 
 public class ObjectPoolManager : MonoBehaviour
 {
     public static List<PooledObjectInfo> ObjectPools = new List<PooledObjectInfo>();
+
+    private void Awake()
+    {
+        ObjectPools.Clear();
+    }
 
     public static GameObject SpawnObject(GameObject objectToSpawn, Vector2 spawnPosition, Quaternion spawnRotation)
     {
@@ -16,15 +20,8 @@ public class ObjectPoolManager : MonoBehaviour
             pool = new PooledObjectInfo() { LookupString = objectToSpawn.name, ParentGo = container };
             ObjectPools.Add(pool);
         }
-
         
         GameObject spawnableObj = pool.InactiveObjects.FirstOrDefault();
-        if (spawnableObj == null)
-        {
-            pool.InactiveObjects.RemoveAll(obj => obj == null);
-            Debug.Log("null °É¸²");
-        }
-        spawnableObj = pool.InactiveObjects.FirstOrDefault();
 
         if (spawnableObj == null)
         {
@@ -40,17 +37,18 @@ public class ObjectPoolManager : MonoBehaviour
             spawnableObj.SetActive(true);
         }
 
-        Debug.Log($"{spawnableObj.name} ³­ Áá´Ù?");
         return spawnableObj;
     }
 
     public static void ReturnObjectPool(GameObject obj)
-    { 
+    {
         string goName = obj.name;
+
         PooledObjectInfo pool = ObjectPools.Find(p => p.LookupString == goName);
         if (pool == null)
         {
             Debug.LogWarning($"{obj.name} No pool to return this obj");
+            obj.SetActive(false);
         }
         else
         { 

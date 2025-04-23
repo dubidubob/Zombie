@@ -18,13 +18,13 @@ TagManager:
   - 
   - Water
   - UI
-  - Enemy
-  - Ground
-  - Effector
   - Allay
   - Zombie1
   - Zombie2
   - Zombie3
+  - Ground
+  - CrossLine
+  - 
   - 
   - 
   - 

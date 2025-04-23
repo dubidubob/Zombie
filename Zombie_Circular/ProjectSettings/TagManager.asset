@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Hero
-  - Monster
-  - Tower
   - Ground
+  - Zombie
+  - Truck
+  - HurtingEnemy
   layers:
   - Default
   - TransparentFX
@@ -15,14 +15,14 @@ TagManager:
   - 
   - Water
   - UI
-  - Enemy
-  - Ground
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Allay
+  - Zombie1
+  - Zombie2
+  - Zombie3
+  - CrossLine
+  - GroundZ1
+  - GroundZ2
+  - GroundZ3
   - 
   - 
   - 

@@ -1,5 +1,5 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(Animator))]
 public class Zombie : Pawn, IEnemyMovable
@@ -27,8 +27,10 @@ public class Zombie : Pawn, IEnemyMovable
 
     [Header("Attack")]
     [SerializeField] private Collider2D attackColliderHeadPivot;
-    [SerializeField] public float MyDamage { get; set; } = 10f;
+    public float MyDamage { get; set; } = 10f;
 
+    [Header("Layer")]
+    [SerializeField] private LayerMask firstZombieLayer;
     //[Header("Debugging")]
     //[SerializeField] private TextMeshProUGUI text;
 
@@ -57,6 +59,11 @@ public class Zombie : Pawn, IEnemyMovable
         m_size = m_myCollider.bounds.size;
         m_animator = GetComponent<Animator>();
         m_enemyLayerMask = 1 << gameObject.layer;
+    }
+
+    private void Start()
+    {
+        GetComponent<SortingGroup>().sortingOrder = (int)firstZombieLayer  - gameObject.layer;
     }
 
     private void OnEnable()
@@ -120,7 +127,7 @@ public class Zombie : Pawn, IEnemyMovable
         }
 
         // 이제 hasUp, hasDown, hasLeft, hasRight를 이용해 로직 처리
-        Debug.Log($"{this.name}, hasup : {hasUp} left : {hasLeft}, right : {hasRight} down : {hasDown}");
+        // Debug.Log($"{this.name}, hasup : {hasUp} left : {hasLeft}, right : {hasRight} down : {hasDown}");
     }
     #endregion
 

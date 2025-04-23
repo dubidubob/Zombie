@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1174570720321624928}
+  - component: {fileID: 28493837188893610}
   - component: {fileID: 7016750400611631704}
   - component: {fileID: 3879850738069150251}
   - component: {fileID: 353067352456269017}
   - component: {fileID: 7372890157507575083}
-  m_Layer: 10
+  m_Layer: 7
   m_Name: ZombieMelee
   m_TagString: Zombie
   m_Icon: {fileID: 0}
@@ -36,6 +37,18 @@ Transform:
   - {fileID: 1639109334033341928}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &28493837188893610
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319310827380095937}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!95 &7016750400611631704
 Animator:
   serializedVersion: 5
@@ -73,10 +86,9 @@ MonoBehaviour:
   <RunSpeed>k__BackingField: 1
   <JumpForce>k__BackingField: 3
   attackColliderHeadPivot: {fileID: 3651119072473931821}
-  text: {fileID: 0}
-  m_enemyLayerMask:
+  firstZombieLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 128
 --- !u!50 &353067352456269017
 Rigidbody2D:
   serializedVersion: 4
@@ -277,7 +289,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1433529695
+  m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 0eb99cd037b8d42b98850c746c02a526, type: 3}
@@ -393,7 +405,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1433529695
+  m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 39290a0dcb1b6425d9bea6fb1313d89a, type: 3}
@@ -477,7 +489,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1433529695
+  m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 1339ea4d894944629ae252d2a9b41530, type: 3}
@@ -593,7 +605,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1433529695
+  m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 14b1842eada7b4da6928e01ac3e9008c, type: 3}
@@ -746,7 +758,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1433529695
+  m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e2b58f3574efd48c28732c25b27b6435, type: 3}
@@ -830,7 +842,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1433529695
+  m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: fb346e1dd6fe243c49c8244bb883d61b, type: 3}

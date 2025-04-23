@@ -2417,6 +2417,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6768365187605558987}
     m_Modifications:
+    - target: {fileID: 3393669512689866528, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.374
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393669512689866528, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.073
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393669512689866528, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9918834
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393669512689866528, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393669512689866528, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393669512689866528, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.12715119
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393669512689866528, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 14.61
+      objectReference: {fileID: 0}
     - target: {fileID: 3778557701416352192, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -2444,6 +2472,10 @@ PrefabInstance:
     - target: {fileID: 6697447059064939665, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093275620298531595, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7309725159113675223, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2503,7 +2535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8547185970901642869, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
       propertyPath: bulletDamage
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8547185970901642869, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
       propertyPath: shootingForce

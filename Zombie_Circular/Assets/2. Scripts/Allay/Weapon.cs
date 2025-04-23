@@ -24,11 +24,17 @@ public class Weapon : MonoBehaviour
     [Header("Bullet Owning Data")]
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletDamage;
-    
+
+    private float m_targetAngle;
 
     void Start()
     {
         StartCoroutine(Shooting());
+    }
+
+    private void Update()
+    {
+        RotateWeapon(m_targetAngle);
     }
 
     private IEnumerator Shooting()
@@ -90,13 +96,23 @@ public class Weapon : MonoBehaviour
         Vector2 shootingDir = target - (Vector2)shootingPlace.position;
         shootingDir.Normalize();
 
-        float angle = Mathf.Atan2(shootingDir.y, shootingDir.x) * Mathf.Rad2Deg;
+        m_targetAngle = Mathf.Atan2(shootingDir.y, shootingDir.x) * Mathf.Rad2Deg;
 
         return shootingDir;
     }
 
+    private void RotateWeapon(float angle)
+    {
+        Quaternion currentRot = transform.rotation;
+        Quaternion desiredRot = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Lerp(
+            currentRot,
+            desiredRot,
+            Time.deltaTime * shootingCoolTime * 3f
+        );
+    }
 
-    // 쏘기 : 모든 bullet의 위치가 조금은 랜덤
+    // 쏘기 : 모든 bullet의 발사 각도가 조금은 랜덤
     private void Shoot(Vector2 dir)
     {
         float halfAngleRange = shootingtAngleRange * 0.5f;

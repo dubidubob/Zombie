@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 531737067848710357}
   m_Layer: 0
   m_Name: Box
-  m_TagString: Tower
+  m_TagString: Truck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -504,7 +504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MaxHealth>k__BackingField: 100
   hpSlider: {fileID: 134779646897404493}
-  centerPos: {fileID: 0}
+  trcukCenterPos: {fileID: 0}
   xOffSet: 0
 --- !u!50 &531737067848710357
 Rigidbody2D:

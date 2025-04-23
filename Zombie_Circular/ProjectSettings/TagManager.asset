@@ -4,13 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Hero
-  - Monster
-  - Tower
   - Ground
-  - Damageble
   - Zombie
-  - HurtHero
+  - Truck
+  - HurtingEnemy
   layers:
   - Default
   - TransparentFX

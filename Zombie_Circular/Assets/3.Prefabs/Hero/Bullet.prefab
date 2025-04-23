@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5072633268592017758}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Damageble
+  m_TagString: HurtingEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

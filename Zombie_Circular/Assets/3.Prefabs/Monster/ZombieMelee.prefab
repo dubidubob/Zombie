@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 3651119072473931821}
   m_Layer: 0
   m_Name: headPivot
-  m_TagString: HurtHero
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

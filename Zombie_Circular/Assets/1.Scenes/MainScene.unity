@@ -226,6 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageUIPrefab: {fileID: 1110556271413864468, guid: 7d666dc43fc5b11419404f3a73049fe7, type: 3}
   randomPosRange: 1
+  textDuration: 0.8
 --- !u!1 &276427801
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,111 +717,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1944894243}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1640095817
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1640095818}
-  - component: {fileID: 1640095819}
-  - component: {fileID: 1640095820}
-  m_Layer: 10
-  m_Name: DontCrossTheLine
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1640095818
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640095817}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.407, y: -8.26, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 815116586079860169}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1640095819
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640095817}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.34526896, y: 4.664925}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.0172992, y: 11.658166}
-  m_EdgeRadius: 0
---- !u!50 &1640095820
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640095817}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 7
 --- !u!1 &1653995044
 GameObject:
   m_ObjectHideFlags: 0
@@ -927,7 +823,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1944894243}
   m_Layer: 0
-  m_Name: Grounds
+  m_Name: Grounds By Layers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -963,23 +859,12 @@ GameObject:
   - component: {fileID: 4730033566222167661}
   - component: {fileID: 3207025140237796201}
   m_Layer: 0
-  m_Name: BoxCenterPos
+  m_Name: CenterPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &312882015960529160 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3773322900730985126, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
-  m_PrefabInstance: {fileID: 7471977519575724863}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &437466680617788831
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1032,21 +917,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &456412481659504874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5400252000390933249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcb40897d51f08b4c80b2f811ff6c79d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1
-  canRun: 1
-  rb: {fileID: 0}
 --- !u!4 &815116586079860169 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7309725159113675223, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
@@ -1111,12 +981,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
-      propertyPath: centerPos
+      propertyPath: trcukCenterPos
+      value: 
+      objectReference: {fileID: 4730033566222167661}
+    - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: trucktCenterPos
       value: 
       objectReference: {fileID: 4730033566222167661}
     - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Name
       value: Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: m_TagString
+      value: Truck
       objectReference: {fileID: 0}
     - target: {fileID: 8935083021968394599, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1319,6 +1197,14 @@ PrefabInstance:
       propertyPath: centerPos
       value: 
       objectReference: {fileID: 4730033566222167661}
+    - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: trcukCenterPos
+      value: 
+      objectReference: {fileID: 4730033566222167661}
+    - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: trucktCenterPos
+      value: 
+      objectReference: {fileID: 4730033566222167661}
     - target: {fileID: 994414282877708790, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -1361,7 +1247,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_TagString
-      value: Tower
+      value: Truck
       objectReference: {fileID: 0}
     - target: {fileID: 6872163726244765423, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
@@ -1422,8 +1308,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 519420032}
-  - {fileID: 7033394483946134820}
   - {fileID: 1653995045}
+  - {fileID: 7033394483946134820}
   m_Father: {fileID: 6768365187605558987}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &3169193168575848384
@@ -1757,6 +1643,14 @@ PrefabInstance:
       propertyPath: centerPos
       value: 
       objectReference: {fileID: 4730033566222167661}
+    - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: trcukCenterPos
+      value: 
+      objectReference: {fileID: 4730033566222167661}
+    - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: trucktCenterPos
+      value: 
+      objectReference: {fileID: 4730033566222167661}
     - target: {fileID: 994414282877708790, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -1795,7 +1689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_TagString
-      value: Tower
+      value: Truck
       objectReference: {fileID: 0}
     - target: {fileID: 6872163726244765423, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
@@ -1877,6 +1771,14 @@ PrefabInstance:
       propertyPath: centerPos
       value: 
       objectReference: {fileID: 4730033566222167661}
+    - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: trcukCenterPos
+      value: 
+      objectReference: {fileID: 4730033566222167661}
+    - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: trucktCenterPos
+      value: 
+      objectReference: {fileID: 4730033566222167661}
     - target: {fileID: 994414282877708790, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -1915,7 +1817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_TagString
-      value: Tower
+      value: Truck
       objectReference: {fileID: 0}
     - target: {fileID: 6872163726244765423, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
@@ -2185,7 +2087,6 @@ GameObject:
   - component: {fileID: 3143780553981273490}
   - component: {fileID: 4876551169056757717}
   - component: {fileID: 5376444533344853780}
-  - component: {fileID: 456412481659504874}
   - component: {fileID: 3169193168575848384}
   m_Layer: 0
   m_Name: Truck
@@ -2208,10 +2109,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6768365187605558987}
-  - component: {fileID: 7363977098644288799}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Allay
-  m_TagString: Hero
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2299,6 +2199,14 @@ PrefabInstance:
       propertyPath: centerPos
       value: 
       objectReference: {fileID: 4730033566222167661}
+    - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: trcukCenterPos
+      value: 
+      objectReference: {fileID: 4730033566222167661}
+    - target: {fileID: 938595229526253937, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
+      propertyPath: trucktCenterPos
+      value: 
+      objectReference: {fileID: 4730033566222167661}
     - target: {fileID: 994414282877708790, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -2337,7 +2245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6628118391875189848, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_TagString
-      value: Tower
+      value: Truck
       objectReference: {fileID: 0}
     - target: {fileID: 6872163726244765423, guid: 5adc49a3cd414458b96cda173bbaeffb, type: 3}
       propertyPath: m_Layer
@@ -2501,33 +2409,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!50 &7363977098644288799
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5884408846407229957}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1001 &7471977519575724863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2536,25 +2417,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6768365187605558987}
     m_Modifications:
+    - target: {fileID: 3778557701416352192, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 5160688740073914439, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
       propertyPath: m_Name
       value: Hero
       objectReference: {fileID: 0}
-    - target: {fileID: 6607915299013549884, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
-      propertyPath: xOffSet
-      value: 0.5
+    - target: {fileID: 5160688740073914439, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5271220376507392284, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6607915299013549884, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
-      propertyPath: hpSlider
+      propertyPath: trcukCenterPos
       value: 
-      objectReference: {fileID: 312882015960529160}
+      objectReference: {fileID: 4730033566222167661}
     - target: {fileID: 6607915299013549884, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
-      propertyPath: centerPos
+      propertyPath: trucktCenterPos
       value: 
       objectReference: {fileID: 4730033566222167661}
     - target: {fileID: 6697447059064939665, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7309725159113675223, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2596,6 +2485,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8077176245181183733, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 8150404882104966654, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2604,26 +2497,44 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8217298241460858868, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8547185970901642869, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
-      propertyPath: FindCenter
+      propertyPath: bulletDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547185970901642869, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: shootingForce
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547185970901642869, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: shootingPlace
+      value: 
+      objectReference: {fileID: 7471977519575724864}
+    - target: {fileID: 8547185970901642869, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: detectionCenter
       value: 
       objectReference: {fileID: 700397433}
     - target: {fileID: 8547185970901642869, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
-      propertyPath: bulletDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8547185970901642869, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
-      propertyPath: zombieLayer.m_Bits
+      propertyPath: zombieLayers.m_Bits
       value: 896
       objectReference: {fileID: 0}
+    - target: {fileID: 8678552783373830218, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 06748878b8c86f345b9a154d3325a43e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7309725159113675223, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
-      insertIndex: 0
-      addedObject: {fileID: 1640095818}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+--- !u!4 &7471977519575724864 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3393669512689866528, guid: 39e73014526a04149a4b4bff2302893b, type: 3}
+  m_PrefabInstance: {fileID: 7471977519575724863}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7538774996470802382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2729,7 +2640,7 @@ GameObject:
   - component: {fileID: 8617595185914761976}
   m_Layer: 0
   m_Name: BoxTrans
-  m_TagString: Tower
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

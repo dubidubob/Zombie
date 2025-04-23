@@ -14,7 +14,7 @@ public class Pawn : MonoBehaviour, IDamageable
         RB = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
+    protected virtual void Init()
     {
         CurrentHealth = MaxHealth;
     }
@@ -25,6 +25,7 @@ public class Pawn : MonoBehaviour, IDamageable
     protected virtual void OnDamage(float damageAmount)
     {
         CurrentHealth -= damageAmount;
+       
         if (CurrentHealth <= 0f)
             OnDie();
     }

@@ -51,8 +51,10 @@ public class Zombie : Pawn
         Init();
     }
 
-    private void Init()
+    protected override void Init()
     {
+        base.Init();
+
         m_rigidBody = GetComponent<Rigidbody2D>();
         m_rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         m_myCollider = GetComponent<Collider2D>();
@@ -202,7 +204,7 @@ public class Zombie : Pawn
     #region Tower, Bullet, Damage, Die
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Trcuk"))
+        if (collision.CompareTag("Truck"))
         {
             if (m_zombieState != ZombieState.Back)
             {

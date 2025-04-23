@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D), typeof(Animator))]
-public class Zombie : Pawn, IEnemyMovable
+public class Zombie : Pawn
 {
     public enum State
     {
